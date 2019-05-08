@@ -332,8 +332,8 @@ class Manager(QtCore.QThread):
         ui.temp_check.clicked.connect(self.update_graph)
         ui.humid_check.clicked.connect(self.update_graph)
         ui.co2_check.clicked.connect(self.update_graph)
-        ui.fix_check.clicked.connect(self.update_graph)
-        ui.unfix_check.clicked.connect(self.update_graph)
+        ui.fix_check.clicked.connect(lambda: self.fix_graph(fix=True))
+        ui.unfix_check.clicked.connect(lambda: self.fix_graph(fix=False))
 
         # initializing
 
@@ -411,6 +411,20 @@ class Manager(QtCore.QThread):
             co2_view.clear()
             co2_view.addItem(pg.PlotCurveItem(values.co2, pen='#0F0F0F'))
         #plotItem.showGrid(True, True, 0.3)
+
+    def fix_graph(self, fix=True):
+        # fix is True or False
+        if fix:
+            main_view.setLimits(yMin=0, yMax=100)
+            humid_view.setLimits(yMin=0, yMax=100)
+            co2_view.setLimits(yMin=0, yMax=2000)
+        else:
+            main_view.setLimits(yMin=-100, yMax=200)
+            humid_view.setLimits(yMin=-100, yMax=200)
+            co2_view.setLimits(yMin=-5000, yMax=5000)
+        main_view.enableAutoRange(axis=pg.ViewBox.XYAxes, enable=fix)
+        humid_view.enableAutoRange(axis=pg.ViewBox.XYAxes, enable=fix)
+        co2_view.enableAutoRange(axis=pg.ViewBox.XYAxes, enable=fix)
 
     def update_view(self, humid_v, co2_v, v):
         humid_v.setGeometry(v.sceneBoundingRect())
