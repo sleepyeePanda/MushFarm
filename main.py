@@ -25,6 +25,11 @@ class UartCom:
         ui.fan.clicked.connect(self.control_fan_power)
         # ui.dryer.clicked.connect(self.control_dryer_power)
         ui.led.clicked.connect(self.control_led_power)
+        #ui.manu_apply.clicked.connect(self.manual_start)
+        #ui.manu_apply.clicked.connect(lambda: self.control_humid_power(init=False, order=))
+        #ui.auto_apply.clicked.connect(self.auto_start)
+        self.manual_timer = None
+        self.auto_timer = None
         self.uart = None
         self.isLinux = False
         self.connect_serial()
@@ -94,11 +99,11 @@ class UartCom:
             asyncio.set_event_loop(self.loop)
             if self.isLinux:
                 self.coro = serial_asyncio.create_serial_connection(self.loop,
-                                                                    lambda: UartProtocol(self), com_no, baudrate=115200)
+                                                                    lambda: UartProtocol(), com_no, baudrate=115200)
                 print(str(com_no)+' connected')
             else:
                 self.coro = serial_asyncio.create_serial_connection(self.loop,
-                                                                    lambda: UartProtocol(self), com_no, baudrate=115200)
+                                                                    lambda: UartProtocol(), com_no, baudrate=115200)
                 print(str(com_no)+' connected')
             self.loop.run_until_complete(self.coro)
 
@@ -154,9 +159,10 @@ class UartCom:
         msgs = {True: r'\x02MF1FX\x03\x0A\x0D', False: r'\x02MF1FO\x03\x0A\x0D'}
         self.send_msg(r'\x02MF1ST\x03\x0A\x0D' if init else msgs[values.status['heater']])
 
-    def control_humid_power(self, init=False):
+    def control_humid_power(self, init=False, order=None):
         msgs = {True: r'\x02MH1FX\x03\x0A\x0D', False: r'\x02MH1FO\x03\x0A\x0D'}
-        self.send_msg(r'\x02MH1ST\x03\x0A\x0D' if init else msgs[values.status['humidifier']])
+        msg = msgs[order] if order else msgs[values.status['humidifier']]
+        self.send_msg(r'\x02MH1ST\x03\x0A\x0D' if init else msg)
 
     def control_fan_power(self, init=False):
         msgs = {True: r'\x02MF1FX\x03\x0A\x0D', False: r'\x02MF1FO\x03\x0A\x0D'}
@@ -167,21 +173,31 @@ class UartCom:
         self.send_msg(r'\x02ML1ST\x03\x0A\x0D' if init else msgs[values.status['led']])
 
     def auto_start(self):
-        msg = r'\x02ART'+values.auto_settings['temp']+'H'+values.auto_settings['humid']+'C'+values.auto_settings['co2']\
-              + r'I000\x03\x0A\x0D'
+        msg = r'\x02ART'+str(values.auto_settings['temp'][0])+'H'+str(values.auto_settings['humid'][0])+ \
+              'C'+str(values.auto_settings['co2'][0])+r'I000\x03\x0A\x0D'
         self.send_msg(msg)
+        self.auto_timer = QtCore.QTimer()
+        self.auto_timer.setSingleShot(True)
+        self.auto_timer.timeout.connect(self.auto_stop)
+        self.auto_timer.start(values.auto_settings['actTime'][0]*8640000 +
+                              values.auto_settings['actTime'][1]*360000)
 
     def auto_stop(self):
         self.send_msg(r'\x02ARSTOP\x03\x0A\x0D')
 
-    def maunual_start(self):
-        msg = r'\x02ART'+values.manu_settings['temp']+'H'+values.manu_settings['humid']+'C'+values.manu_settings['co2']\
-              + r'I000\x03\x0A\x0D'
+    def manual_start(self):
+        msg = r'\x02ART'+str(values.manu_settings['temp'][0])+'H'+str(values.manu_settings['humid'][0])+ \
+              'C'+str(values.manu_settings['co2'][0])+r'I000\x03\x0A\x0D'
         self.send_msg(msg)
-
-    def maunual_stop(self):
+        self.manual_timer = QtCore.QTimer()
+        self.manual_timer.setSingleShot(True)
+        self.manual_timer.timeout.connect(self.manual_stop)
+        # days*1000*60*60*24msec
+        # hoours*1000*60*60msec
+        self.manual_timer.start(values.manu_settings['growTime'][0]*86400000 +
+                                values.manu_settings['growTime'][1]*3600000)
+    def manual_stop(self):
         self.send_msg(r'\x02MRSTOP\x03\x0A\x0D')
-
 
 
 class UartProtocol(asyncio.Protocol):
@@ -290,7 +306,7 @@ class RcvParser(QtCore.QObject):
         self.protocol = {'S1': self.rcv_state,
                          'MF': self.rcv_heater,
                          'MH': self.rcv_humid,
-                         'MF': self.rcv_fan,
+                         #'MF': self.rcv_fan,
                          'ML': self.rcv_led}
 
 
@@ -326,7 +342,9 @@ class Manager(QtCore.QThread):
         ui.graph.clicked.connect(lambda: ui.stackedWidget.setCurrentIndex(1))
         ui.settings.clicked.connect(lambda: ui.stackedWidget.setCurrentIndex(2))
         ui.manual_mode.clicked.connect(lambda: ui.stackedWidget_2.setCurrentIndex(0))
+        ui.manual_mode.clicked.connect(lambda: self.update_settings('manual'))
         ui.auto_mode.clicked.connect(lambda: ui.stackedWidget_2.setCurrentIndex(1))
+        ui.auto_mode.clicked.connect(lambda: self.update_settings('auto'))
         ui.manu_apply.clicked.connect(lambda: self.change_settings('manual'))
         ui.auto_apply.clicked.connect(lambda: self.change_settings('auto'))
         ui.temp_check.clicked.connect(self.update_graph)
@@ -334,6 +352,7 @@ class Manager(QtCore.QThread):
         ui.co2_check.clicked.connect(self.update_graph)
         ui.fix_check.clicked.connect(lambda: self.fix_graph(fix=True))
         ui.unfix_check.clicked.connect(lambda: self.fix_graph(fix=False))
+        ui.power.clicked.connect(sys.exit)
 
         # initializing
 

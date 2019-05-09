@@ -1,52 +1,48 @@
 {
     "manu_settings": {
         "temp": [
-            4,
-            0
+            1,
+            1
         ],
         "humid": [
-            4,
-            0
+            2,
+            2
         ],
         "co2": [
-            4,
-            0
+            3,
+            3
         ],
         "growTime": [
             4,
-            0
+            4
         ],
         "humidifier": {
             "freq": [
-                2,
-                0
+                6,
+                6
             ],
             "act": [
-                2,
-                0
+                5,
+                5
             ]
         }
     },
     "auto_settings": {
         "temp": [
             1,
-            0
+            1
         ],
         "humid": [
             2,
-            0
+            2
         ],
         "co2": [
-            1,
-            0
+            3,
+            3
         ],
         "actTime": [
-            0,
-            0
-        ],
-        "actoTime": [
-            0,
-            0
+            4,
+            4
         ]
     }
 }

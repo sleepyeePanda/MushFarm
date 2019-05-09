@@ -16,32 +16,6 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet("background-color:rgb(230,230,230);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.main = QtWidgets.QPushButton(self.centralwidget)
-        self.main.setGeometry(QtCore.QRect(22, 470, 105, 105))
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.main.setFont(font)
-        self.main.setStyleSheet("border:1px solid rgb(220,220,220);\n"
-"background-color:white;\n"
-"border-top-left-radius:4px;\n"
-"border-bottom-left-radius:4px;\n"
-"color:rgb(100,100,100);")
-        self.main.setObjectName("main")
-        self.graph = QtWidgets.QPushButton(self.centralwidget)
-        self.graph.setGeometry(QtCore.QRect(126, 470, 105, 105))
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.graph.setFont(font)
-        self.graph.setStyleSheet("background-color:white;\n"
-"border:1px solid rgb(220,220,220);\n"
-"color:rgb(100,100,100);")
-        self.graph.setObjectName("graph")
         self.label_32 = QtWidgets.QLabel(self.centralwidget)
         self.label_32.setGeometry(QtCore.QRect(-10, 0, 1051, 91))
         font = QtGui.QFont()
@@ -1555,20 +1529,6 @@ class Ui_MainWindow(object):
         self.manual_mode.raise_()
         self.auto_mode.raise_()
         self.stackedWidget.addWidget(self.page_3)
-        self.settings = QtWidgets.QPushButton(self.centralwidget)
-        self.settings.setGeometry(QtCore.QRect(230, 470, 105, 105))
-        font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.settings.setFont(font)
-        self.settings.setStyleSheet("border:1px solid rgb(220,220,220);\n"
-"background-color:white;\n"
-"border-top-right-radius:4px;\n"
-"border-bottom-right-radius:4px;\n"
-"color:rgb(100,100,100);")
-        self.settings.setObjectName("settings")
         self.power = QtWidgets.QPushButton(self.centralwidget)
         self.power.setGeometry(QtCore.QRect(900, 470, 105, 105))
         font = QtGui.QFont()
@@ -1577,10 +1537,18 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.power.setFont(font)
-        self.power.setStyleSheet("border:1px solid rgb(220,220,220);\n"
+        self.power.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
 "background-color:white;\n"
-"border-radius:4px;\n"
-"color:rgb(100,100,100);")
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
+"border:1px solid rgb(220,220,220);\n"
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}")
+        self.power.setCheckable(True)
         self.power.setObjectName("power")
         self.humidifier = QtWidgets.QPushButton(self.centralwidget)
         self.humidifier.setGeometry(QtCore.QRect(461, 470, 105, 105))
@@ -1590,9 +1558,18 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.humidifier.setFont(font)
-        self.humidifier.setStyleSheet("background-color:white;\n"
+        self.humidifier.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
+"background-color:white;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
 "border:1px solid rgb(220,220,220);\n"
-"color:rgb(100,100,100);")
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}")
+        self.humidifier.setCheckable(True)
         self.humidifier.setObjectName("humidifier")
         self.heater = QtWidgets.QPushButton(self.centralwidget)
         self.heater.setGeometry(QtCore.QRect(357, 470, 105, 105))
@@ -1602,11 +1579,18 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.heater.setFont(font)
-        self.heater.setStyleSheet("border:1px solid rgb(220,220,220);\n"
+        self.heater.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
 "background-color:white;\n"
 "border-top-left-radius:4px;\n"
 "border-bottom-left-radius:4px;\n"
-"color:rgb(100,100,100);")
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
+"border:1px solid rgb(220,220,220);\n"
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}")
+        self.heater.setCheckable(True)
         self.heater.setObjectName("heater")
         self.led = QtWidgets.QPushButton(self.centralwidget)
         self.led.setGeometry(QtCore.QRect(773, 470, 105, 105))
@@ -1616,11 +1600,18 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.led.setFont(font)
-        self.led.setStyleSheet("border:1px solid rgb(220,220,220);\n"
+        self.led.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
 "background-color:white;\n"
-"border-top-right-radius:4px;\n"
-"border-bottom-right-radius:4px;\n"
-"color:rgb(100,100,100);")
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
+"border:1px solid rgb(220,220,220);\n"
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}")
+        self.led.setCheckable(True)
         self.led.setObjectName("led")
         self.fan = QtWidgets.QPushButton(self.centralwidget)
         self.fan.setGeometry(QtCore.QRect(565, 470, 105, 105))
@@ -1630,9 +1621,18 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.fan.setFont(font)
-        self.fan.setStyleSheet("background-color:white;\n"
+        self.fan.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
+"background-color:white;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
 "border:1px solid rgb(220,220,220);\n"
-"color:rgb(100,100,100);")
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}")
+        self.fan.setCheckable(True)
         self.fan.setObjectName("fan")
         self.dryer = QtWidgets.QPushButton(self.centralwidget)
         self.dryer.setGeometry(QtCore.QRect(669, 470, 105, 105))
@@ -1642,10 +1642,95 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.dryer.setFont(font)
-        self.dryer.setStyleSheet("background-color:white;\n"
+        self.dryer.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
+"background-color:white;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
 "border:1px solid rgb(220,220,220);\n"
-"color:rgb(100,100,100);")
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}")
+        self.dryer.setCheckable(True)
         self.dryer.setObjectName("dryer")
+        self.frame_22 = QtWidgets.QFrame(self.centralwidget)
+        self.frame_22.setGeometry(QtCore.QRect(10, 470, 341, 111))
+        self.frame_22.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_22.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_22.setObjectName("frame_22")
+        self.main = QtWidgets.QPushButton(self.frame_22)
+        self.main.setGeometry(QtCore.QRect(12, 0, 105, 105))
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.main.setFont(font)
+        self.main.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
+"background-color:white;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
+"border:1px solid rgb(220,220,220);\n"
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}\n"
+"")
+        self.main.setCheckable(True)
+        self.main.setChecked(True)
+        self.main.setAutoRepeat(False)
+        self.main.setAutoExclusive(True)
+        self.main.setObjectName("main")
+        self.graph = QtWidgets.QPushButton(self.frame_22)
+        self.graph.setGeometry(QtCore.QRect(116, 0, 105, 105))
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.graph.setFont(font)
+        self.graph.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
+"background-color:white;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
+"border:1px solid rgb(220,220,220);\n"
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}")
+        self.graph.setCheckable(True)
+        self.graph.setAutoRepeat(False)
+        self.graph.setAutoExclusive(True)
+        self.graph.setObjectName("graph")
+        self.settings = QtWidgets.QPushButton(self.frame_22)
+        self.settings.setGeometry(QtCore.QRect(220, 0, 105, 105))
+        font = QtGui.QFont()
+        font.setFamily("맑은 고딕")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.settings.setFont(font)
+        self.settings.setStyleSheet("QPushButton{border:1px solid rgb(220,220,220);\n"
+"background-color:white;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:rgb(100,100,100);}\n"
+"QPushButton:checked{\n"
+"border:1px solid rgb(220,220,220);\n"
+"background-color:grey;\n"
+"border-top-left-radius:4px;\n"
+"border-bottom-left-radius:4px;\n"
+"color:white;}")
+        self.settings.setCheckable(True)
+        self.settings.setAutoRepeat(False)
+        self.settings.setAutoExclusive(True)
+        self.settings.setObjectName("settings")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -1656,8 +1741,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.main.setText(_translate("MainWindow", "메인"))
-        self.graph.setText(_translate("MainWindow", "그래프"))
         self.label_32.setText(_translate("MainWindow", "MushFarm Monitoring System"))
         self.label_7.setText(_translate("MainWindow", "습도"))
         self.cur_humid_1.setText(_translate("MainWindow", "100"))
@@ -1672,12 +1755,12 @@ class Ui_MainWindow(object):
         self.label_17.setText(_translate("MainWindow", "ppm"))
         self.label_18.setText(_translate("MainWindow", "ppm"))
         self.label_30.setText(_translate("MainWindow", "센서 수신 시간"))
-        self.sens_time.setText(_translate("MainWindow", "12:59:59"))
+        self.sens_time.setText(_translate("MainWindow", "12 : 59 : 59"))
         self.label_26.setText(_translate("MainWindow", "진행률"))
         self.progress.setText(_translate("MainWindow", "100"))
         self.label_31.setText(_translate("MainWindow", "%"))
         self.label_28.setText(_translate("MainWindow", "현재 시간"))
-        self.cur_time.setText(_translate("MainWindow", "12:59:59"))
+        self.cur_time.setText(_translate("MainWindow", "12 : 59 : 59"))
         self.label.setText(_translate("MainWindow", "온도"))
         self.cur_temp_1.setText(_translate("MainWindow", "99.9"))
         self.label_5.setText(_translate("MainWindow", "설정  |"))
@@ -1737,13 +1820,33 @@ class Ui_MainWindow(object):
         self.label_71.setText(_translate("MainWindow", " ±"))
         self.manual_mode.setText(_translate("MainWindow", "수동 모드"))
         self.auto_mode.setText(_translate("MainWindow", "자동 모드"))
-        self.settings.setText(_translate("MainWindow", "설정"))
-        self.power.setText(_translate("MainWindow", "전원"))
-        self.humidifier.setText(_translate("MainWindow", "가습기"))
-        self.heater.setText(_translate("MainWindow", "히터"))
-        self.led.setText(_translate("MainWindow", "조명"))
-        self.fan.setText(_translate("MainWindow", "송풍기"))
-        self.dryer.setText(_translate("MainWindow", "건조기"))
+        self.power.setText(_translate("MainWindow", "\n"
+"\n"
+"전원"))
+        self.humidifier.setText(_translate("MainWindow", "\n"
+"\n"
+"가습기"))
+        self.heater.setText(_translate("MainWindow", "\n"
+"\n"
+"히터"))
+        self.led.setText(_translate("MainWindow", "\n"
+"\n"
+"조명"))
+        self.fan.setText(_translate("MainWindow", "\n"
+"\n"
+"송풍기"))
+        self.dryer.setText(_translate("MainWindow", "\n"
+"\n"
+"건조기"))
+        self.main.setText(_translate("MainWindow", "\n"
+"\n"
+"메인"))
+        self.graph.setText(_translate("MainWindow", "\n"
+"\n"
+"그래프"))
+        self.settings.setText(_translate("MainWindow", "\n"
+"\n"
+"설정"))
 
 
 from pyqtgraph import PlotWidget
