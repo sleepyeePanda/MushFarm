@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="img">
+    <file>resources/background.jpg</file>
+    <file>resources/circular-light-bulb.png</file>
+    <file>resources/down-arrow.png</file>
+    <file>resources/drop.png</file>
+    <file>resources/fan.png</file>
+    <file>resources/gears.png</file>
+    <file>resources/heater.png</file>
+    <file>resources/stats.png</file>
+    <file>resources/up-arrow.png</file>
+    <file>resources/wind.png</file>
+  </qresource>
+</RCC>
