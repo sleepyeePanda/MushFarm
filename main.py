@@ -363,7 +363,10 @@ class Manager(QtCore.QThread):
     def update_settings(self, mode):
         if mode == 'manual':
             ui.settings_temp.setText(str(values.manu_settings['temp'][0]))
+            ui.qdial.setMixmun()
+            ui.qdial.setMinimun()
             ui.settings_humid.setText(str(values.manu_settings['humid'][0]))
+            ui.qdia_2.se
             ui.settings_co2.setText(str(values.manu_settings['co2'][0]))
             ui.manu_temp.setValue(values.manu_settings['temp'][0])
             ui.manu_temp_range.setValue(values.manu_settings['temp'][1])
@@ -400,8 +403,11 @@ class Manager(QtCore.QThread):
 
     def update_state(self):
         ui.cur_temp_1.setText(str(float(values.temp)))
+        ui.qdial_1.setValue()
         ui.cur_humid_1.setText(str(int(values.humid)))
+        ui.qdial_2.setValue()
         ui.cur_co2_1.setText(str(int(values.co2)))
+        ui.qdial_3.setValue()
         ui.sens_time.setText(values.time)
 
     def update_actuator(self):
@@ -429,7 +435,7 @@ class Manager(QtCore.QThread):
         if ui.co2_check.isChecked():
             co2_view.clear()
             co2_view.addItem(pg.PlotCurveItem(values.co2, pen='#0F0F0F'))
-        #plotItem.showGrid(True, True, 0.3)
+        # plotItem.showGrid(True, True, 0.3)
 
     def fix_graph(self, fix=True):
         # fix is True or False
