@@ -2,7 +2,7 @@ import asyncio
 import datetime
 import glob
 import json
-# from functools import partial
+from functools import partial
 import serial
 from threading import Thread
 import time
@@ -338,9 +338,9 @@ class Manager(QtCore.QThread):
     def __init__(self):
         super().__init__()
         self.alertSignal.connect(self.alert)
-        ui.main.clicked.connect(lambda: ui.stackedWidget.setCurrentIndex(0))
-        ui.graph.clicked.connect(lambda: ui.stackedWidget.setCurrentIndex(1))
-        ui.settings.clicked.connect(lambda: ui.stackedWidget.setCurrentIndex(2))
+        buttons = [ui.graph_l, ui.settings_r, ui.main_r, ui.settings_l, ui.main_l, ui.graph_r]
+        for i, button in enumerate(buttons):
+            button.clicked.connect(partial(ui.stackedWidget.setCurrentIndex, i//2))
         ui.manual_mode.clicked.connect(lambda: ui.stackedWidget_2.setCurrentIndex(0))
         ui.manual_mode.clicked.connect(lambda: self.update_settings('manual'))
         ui.auto_mode.clicked.connect(lambda: ui.stackedWidget_2.setCurrentIndex(1))
@@ -363,10 +363,9 @@ class Manager(QtCore.QThread):
     def update_settings(self, mode):
         if mode == 'manual':
             ui.settings_temp.setText(str(values.manu_settings['temp'][0]))
-            ui.qdial.setMixmun()
-            ui.qdial.setMinimun()
+            # ui.temp_dial.setMax()
+            # ui.temp_dial.setMin()
             ui.settings_humid.setText(str(values.manu_settings['humid'][0]))
-            ui.qdia_2.se
             ui.settings_co2.setText(str(values.manu_settings['co2'][0]))
             ui.manu_temp.setValue(values.manu_settings['temp'][0])
             ui.manu_temp_range.setValue(values.manu_settings['temp'][1])
@@ -403,11 +402,11 @@ class Manager(QtCore.QThread):
 
     def update_state(self):
         ui.cur_temp_1.setText(str(float(values.temp)))
-        ui.qdial_1.setValue()
+        ui.temp_dial.setValue()
         ui.cur_humid_1.setText(str(int(values.humid)))
-        ui.qdial_2.setValue()
+        ui.humid_dial.setValue()
         ui.cur_co2_1.setText(str(int(values.co2)))
-        ui.qdial_3.setValue()
+        ui.co2_dial.setValue()
         ui.sens_time.setText(values.time)
 
     def update_actuator(self):

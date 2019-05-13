@@ -1,7 +1,9 @@
 <RCC>
   <qresource prefix="img">
-    <file>resources/background.jpg</file>
+    <file>resources/web-page-home.png</file>
+    <file>resources/settings.png</file>
     <file>resources/circular-light-bulb.png</file>
+    <file>resources/background.jpg</file>
     <file>resources/down-arrow.png</file>
     <file>resources/drop.png</file>
     <file>resources/fan.png</file>

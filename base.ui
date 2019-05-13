@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -1031,7 +1031,7 @@ color:rgb(10,10,10);</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QDial" name="dial">
+      <widget class="QDial" name="temp_dial">
        <property name="geometry">
         <rect>
          <x>-10</x>
@@ -1455,6 +1455,12 @@ color:rgb(10,10,10);</string>
          </disabled>
         </palette>
        </property>
+       <property name="minimum">
+        <number>-50</number>
+       </property>
+       <property name="maximum">
+        <number>50</number>
+       </property>
       </widget>
       <widget class="QLabel" name="label">
        <property name="geometry">
@@ -1482,7 +1488,7 @@ color:rgb(10,10,10);</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <zorder>dial</zorder>
+      <zorder>temp_dial</zorder>
       <zorder>cur_temp_1</zorder>
       <zorder>settings_temp</zorder>
       <zorder>label_20</zorder>
@@ -2000,7 +2006,7 @@ color:rgb(10,10,10);</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QDial" name="dial_3">
+      <widget class="QDial" name="co2_dial">
        <property name="geometry">
         <rect>
          <x>-10</x>
@@ -2441,6 +2447,9 @@ QProgressBar::chunk
 margin: 0.5px;
 }</string>
        </property>
+       <property name="maximum">
+        <number>2000</number>
+       </property>
        <property name="invertedAppearance">
         <bool>false</bool>
        </property>
@@ -2477,13 +2486,13 @@ color:rgb(10,10,10);</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <zorder>dial_3</zorder>
+      <zorder>co2_dial</zorder>
       <zorder>cur_co2_1</zorder>
       <zorder>label_18</zorder>
       <zorder>settings_co2</zorder>
       <zorder>label_4</zorder>
      </widget>
-     <widget class="QPushButton" name="graph">
+     <widget class="QPushButton" name="main_l">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -2504,8 +2513,8 @@ color:rgb(10,10,10);</string>
        <string notr="true">QPushButton{
 border:1px solid rgb(130,130,130);
 border-radius:30px;
-background-color:rgba(255,255,255,200);
-color:rgb(100,100,100);}
+background-color:rgba(255,255,255,140);
+color:rgb(130,130, 130);}
 QPushButton:pressed{
 border:transparent;
 background-color:rgba(0,0,0,200);
@@ -2513,7 +2522,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&lt;</string>
+       <string>&lt;        </string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -2525,7 +2534,7 @@ color:white;}</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="settings">
+     <widget class="QPushButton" name="main_r">
       <property name="geometry">
        <rect>
         <x>950</x>
@@ -2546,8 +2555,8 @@ color:white;}</string>
        <string notr="true">QPushButton{
 border:1px solid rgb(130,130,130);
 border-radius:30px;
-background-color:rgba(255,255,255,200);
-color:rgb(100,100,100);}
+background-color:rgba(255,255,255,140);
+color:rgb(130,130, 130);}
 QPushButton:pressed{
 border:transparent;
 background-color:rgba(0,0,0,200);
@@ -2555,7 +2564,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&gt;</string>
+       <string>        &gt;</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -2664,7 +2673,7 @@ color:rgb(10,10,10);</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QDial" name="dial_2">
+      <widget class="QDial" name="humid_dial">
        <property name="geometry">
         <rect>
          <x>-10</x>
@@ -2675,6 +2684,9 @@ color:rgb(10,10,10);</string>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
+       </property>
+       <property name="maximum">
+        <number>100</number>
        </property>
       </widget>
       <widget class="QLabel" name="label_3">
@@ -2703,7 +2715,7 @@ color:rgb(10,10,10);</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <zorder>dial_2</zorder>
+      <zorder>humid_dial</zorder>
       <zorder>cur_humid_1</zorder>
       <zorder>label_19</zorder>
       <zorder>settings_humid</zorder>
@@ -2764,6 +2776,46 @@ border:1px solid rgb(158, 193, 203);
        <string>%p%</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>31</x>
+        <y>169</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image:url(:/img/resources/settings.png)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>967</x>
+        <y>169</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image:url(:/img/resources/stats.png)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>frame</zorder>
+     <zorder>frame_8</zorder>
+     <zorder>frame_6</zorder>
+     <zorder>progressBar</zorder>
+     <zorder>label_12</zorder>
+     <zorder>main_l</zorder>
+     <zorder>label_13</zorder>
+     <zorder>main_r</zorder>
     </widget>
     <widget class="QWidget" name="page_2">
      <widget class="QRadioButton" name="unfix_check">
@@ -2901,7 +2953,7 @@ border:1px solid rgb(158, 193, 203);
        <string notr="true"/>
       </property>
      </widget>
-     <widget class="QPushButton" name="settings_2">
+     <widget class="QPushButton" name="graph_r">
       <property name="geometry">
        <rect>
         <x>950</x>
@@ -2922,8 +2974,8 @@ border:1px solid rgb(158, 193, 203);
        <string notr="true">QPushButton{
 border:1px solid rgb(130,130,130);
 border-radius:30px;
-background-color:rgba(255,255,255,200);
-color:rgb(100,100,100);}
+background-color:rgba(255,255,255,140);
+color:rgb(130,130, 130);}
 QPushButton:pressed{
 border:transparent;
 background-color:rgba(0,0,0,200);
@@ -2931,7 +2983,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&gt;</string>
+       <string>        &gt;</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -2943,7 +2995,7 @@ color:white;}</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="graph_2">
+     <widget class="QPushButton" name="graph_l">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -2964,8 +3016,8 @@ color:white;}</string>
        <string notr="true">QPushButton{
 border:1px solid rgb(130,130,130);
 border-radius:30px;
-background-color:rgba(255,255,255,200);
-color:rgb(100,100,100);}
+background-color:rgba(255,255,255,140);
+color:rgb(130,130, 130);}
 QPushButton:pressed{
 border:transparent;
 background-color:rgba(0,0,0,200);
@@ -2973,7 +3025,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&lt; </string>
+       <string>&lt;        </string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -3636,17 +3688,51 @@ color:white</string>
        </property>
       </widget>
      </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>967</x>
+        <y>169</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image: url(:/img/resources/settings.png);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>31</x>
+        <y>169</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image:url(:/img/resources/web-page-home.png)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
      <zorder>graphicsView</zorder>
      <zorder>unfix_check</zorder>
      <zorder>fix_check</zorder>
      <zorder>temp_check</zorder>
      <zorder>humid_check</zorder>
      <zorder>co2_check</zorder>
-     <zorder>settings_2</zorder>
-     <zorder>graph_2</zorder>
      <zorder>frame_25</zorder>
      <zorder>frame_27</zorder>
      <zorder>frame_29</zorder>
+     <zorder>label_14</zorder>
+     <zorder>graph_r</zorder>
+     <zorder>label_16</zorder>
+     <zorder>graph_l</zorder>
     </widget>
     <widget class="QWidget" name="page_3">
      <widget class="QFrame" name="frame_15">
@@ -3655,7 +3741,7 @@ color:white</string>
         <x>690</x>
         <y>10</y>
         <width>251</width>
-        <height>181</height>
+        <height>179</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -3933,7 +4019,7 @@ color:white</string>
         <x>80</x>
         <y>10</y>
         <width>611</width>
-        <height>351</height>
+        <height>355</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -9539,7 +9625,7 @@ color:white;</string>
       <zorder>manual_mode</zorder>
       <zorder>auto_mode</zorder>
      </widget>
-     <widget class="QPushButton" name="settings_3">
+     <widget class="QPushButton" name="settings_r">
       <property name="geometry">
        <rect>
         <x>950</x>
@@ -9560,8 +9646,8 @@ color:white;</string>
        <string notr="true">QPushButton{
 border:1px solid rgb(130,130,130);
 border-radius:30px;
-background-color:rgba(255,255,255,200);
-color:rgb(100,100,100);}
+background-color:rgba(255,255,255,140);
+color:rgb(130,130, 130);}
 QPushButton:pressed{
 border:transparent;
 background-color:rgba(0,0,0,200);
@@ -9569,7 +9655,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&gt;</string>
+       <string>        &gt;</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -9581,7 +9667,7 @@ color:white;}</string>
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="graph_3">
+     <widget class="QPushButton" name="settings_l">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -9602,8 +9688,8 @@ color:white;}</string>
        <string notr="true">QPushButton{
 border:1px solid rgb(130,130,130);
 border-radius:30px;
-background-color:rgba(255,255,255,200);
-color:rgb(100,100,100);}
+background-color:rgba(255,255,255,140);
+color:rgb(130,130, 130);}
 QPushButton:pressed{
 border:transparent;
 background-color:rgba(0,0,0,200);
@@ -9611,7 +9697,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&lt;</string>
+       <string>&lt;        </string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -9629,7 +9715,7 @@ color:white;}</string>
         <x>690</x>
         <y>188</y>
         <width>251</width>
-        <height>181</height>
+        <height>177</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -9993,6 +10079,45 @@ color:white</string>
        </property>
       </widget>
      </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>967</x>
+        <y>169</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image:url(:/img/resources/web-page-home.png)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>31</x>
+        <y>169</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image:url(:/img/resources/stats.png)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>frame_15</zorder>
+     <zorder>frame_4</zorder>
+     <zorder>frame_23</zorder>
+     <zorder>label_15</zorder>
+     <zorder>settings_r</zorder>
+     <zorder>label_17</zorder>
+     <zorder>settings_l</zorder>
     </widget>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -10196,7 +10321,7 @@ color:white;}
     <property name="geometry">
      <rect>
       <x>755</x>
-      <y>0</y>
+      <y>10</y>
       <width>261</width>
       <height>121</height>
      </rect>
@@ -10210,40 +10335,11 @@ color:white;}
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLabel" name="time_date">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
-       <y>20</y>
-       <width>171</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>나눔스퀘어</family>
-       <pointsize>13</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background:transparent;
-color:rgb(245,245,245)
-</string>
-     </property>
-     <property name="text">
-      <string>2018년 12월 31일</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
     <widget class="QLabel" name="cur_time">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>45</y>
+       <y>20</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -10272,7 +10368,7 @@ color:rgb(245,245,245)
        <x>10</x>
        <y>10</y>
        <width>241</width>
-       <height>105</height>
+       <height>81</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -10287,7 +10383,7 @@ border-radius:5px;</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>75</y>
+       <y>50</y>
        <width>221</width>
        <height>41</height>
       </rect>
@@ -10304,14 +10400,13 @@ border-radius:5px;</string>
       <string notr="true">color:white;</string>
      </property>
      <property name="text">
-      <string>2019년 12월 3일 12 : 59 : 59</string>
+      <string>12 : 59 : 59</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <zorder>label_28</zorder>
-    <zorder>time_date</zorder>
     <zorder>cur_time</zorder>
     <zorder>sens_time</zorder>
    </widget>
