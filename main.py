@@ -7,7 +7,7 @@ import serial
 from threading import Thread
 import time
 
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 import pyqtgraph as pg
 import serial_asyncio
 
@@ -25,9 +25,10 @@ class UartCom:
         ui.fan.clicked.connect(self.control_fan_power)
         # ui.dryer.clicked.connect(self.control_dryer_power)
         ui.led.clicked.connect(self.control_led_power)
-        #ui.manu_apply.clicked.connect(self.manual_start)
-        #ui.manu_apply.clicked.connect(lambda: self.control_humid_power(init=False, order=))
-        #ui.auto_apply.clicked.connect(self.auto_start)
+        ui.start.clicked.connect(lambda: self.manual_start() if ui.manu_apply.isChecked() else self.auto_start())
+        ui.start.toggled.connect(lambda x: ui.start.setText('\n\n실행 중') if x else ui.start.setText('\n\n시작'))
+        ui.manu_apply.clicked.connect(lambda: ui.auto_apply.setChecked(False))
+        ui.auto_apply.clicked.connect(lambda: ui.manu_apply.setChecked(False))
         self.manual_timer = None
         self.auto_timer = None
         self.uart = None
@@ -145,12 +146,15 @@ class UartCom:
             try:
                 self.uart.write(msg.encode())
                 print(msg)
+                return True
             except Exception as e:
                 print(str(e))
                 manager.alertSignal.emit('통신 연결 상태를 확인해 주십시오.')
+                return False
         else:
             manager.alertSignal.emit('통신 연결 상태를 확인해 주십시오.')
             print('Not Connected')
+            return False
 
     def send_state(self):
         self.send_msg(r'\x02S1TEMP?\x03\x0A\x0D')
@@ -161,7 +165,17 @@ class UartCom:
 
     def control_humid_power(self, init=False, order=None):
         msgs = {True: r'\x02MH1FX\x03\x0A\x0D', False: r'\x02MH1FO\x03\x0A\x0D'}
-        msg = msgs[order] if order else msgs[values.status['humidifier']]
+        if order is not None:
+            msg = msgs[order]
+            self.humid_act_timer = QtCore.QTimer()
+            self.humid_act_timer.setSingleShot(True)
+            self.humid_act_timer.timeout.connect(self.control_humid_power(order=True))
+            # hours*60*60*1000msec
+            # minutes*60*1000msec
+            self.humid_act_timer.start(values['humidifier']['act'][0]*3600000
+                                       + values['humidifier']['act'][1]*60000)
+        else:
+            msg = msgs[values.status['humidifier']]
         self.send_msg(r'\x02MH1ST\x03\x0A\x0D' if init else msg)
 
     def control_fan_power(self, init=False):
@@ -175,12 +189,14 @@ class UartCom:
     def auto_start(self):
         msg = r'\x02ART'+str(values.auto_settings['temp'][0])+'H'+str(values.auto_settings['humid'][0])+ \
               'C'+str(values.auto_settings['co2'][0])+r'I000\x03\x0A\x0D'
-        self.send_msg(msg)
-        self.auto_timer = QtCore.QTimer()
-        self.auto_timer.setSingleShot(True)
-        self.auto_timer.timeout.connect(self.auto_stop)
-        self.auto_timer.start(values.auto_settings['actTime'][0]*8640000 +
-                              values.auto_settings['actTime'][1]*360000)
+        if self.send_msg(msg):
+            self.auto_timer = QtCore.QTimer()
+            self.auto_timer.setSingleShot(True)
+            self.auto_timer.timeout.connect(self.auto_stop)
+            self.auto_timer.start(values.auto_settings['actTime'][0]*8640000 +
+                                  values.auto_settings['actTime'][1]*360000)
+        else:
+            ui.start.setChecked(False)
 
     def auto_stop(self):
         self.send_msg(r'\x02ARSTOP\x03\x0A\x0D')
@@ -188,17 +204,31 @@ class UartCom:
     def manual_start(self):
         msg = r'\x02ART'+str(values.manu_settings['temp'][0])+'H'+str(values.manu_settings['humid'][0])+ \
               'C'+str(values.manu_settings['co2'][0])+r'I000\x03\x0A\x0D'
-        self.send_msg(msg)
-        self.manual_timer = QtCore.QTimer()
-        self.manual_timer.setSingleShot(True)
-        self.manual_timer.timeout.connect(self.manual_stop)
-        # days*1000*60*60*24msec
-        # hoours*1000*60*60msec
-        self.manual_timer.start(values.manu_settings['growTime'][0]*86400000 +
-                                values.manu_settings['growTime'][1]*3600000)
+        if self.send_msg(msg):
+            self.manual_timer = QtCore.QTimer()
+            self.manual_timer.setSingleShot(True)
+            self.manual_timer.timeout.connect(self.manual_stop)
+            self.humid_freq_timer = QtCore.QTimer()
+            self.humid_freq_timer.setSingleShot(True)
+            self.humid_freq_timer.timeout.connect(lambda: self.control_humid_power(order=False))
+            self.progress_timer = QtCore.QTimer()
+            self.progress_timer.setSingleShot(True)
+            self.progress_timer.timeout.connect(self.update_progress)
+            # days*60*60*24*1000msec
+            # hours*60*60*1000msec
+            # minutes*60*1000msec
+            self.grow_time = values.manu_settings['growTime'][0]*86400000 + values.manu_settings['growTime'][1]*3600000
+            self.grow_time = 6000
+            self.manual_timer.start(self.grow_time)
+            self.humid_freq_timer.start(values.manu_settings['humidifier']['freq'][0]*3600000 +
+                                        values.manu_settings['humidifier']['freq'][1]*60000)
+            self.progress_timer.start(1000)
+
+    def update_progress(self):
+        ui.progressBar.setValue(((self.grow_time - self.manual_timer.remainingTime()) / self.grow_time)*100)
+
     def manual_stop(self):
         self.send_msg(r'\x02MRSTOP\x03\x0A\x0D')
-
 
 class UartProtocol(asyncio.Protocol):
     def __init__(self):
@@ -263,9 +293,9 @@ class RcvParser(QtCore.QObject):
             print(str(e))
             co2 = values.co2[-1]
         self.updateStateSignal.emit()
-        # values.temp.pop(0)
-        # values.humid.pop(0)
-        # values.co2.pop(0)
+        values.temp.pop(0)
+        values.humid.pop(0)
+        values.co2.pop(0)
 
     def rcv_heater(self, info):
         try:
@@ -277,6 +307,11 @@ class RcvParser(QtCore.QObject):
     def rcv_humid(self, info):
         try:
             values.status['humidifier'] = True if info[4] == 'O' else False
+
+            #####
+            ui.humidifier.setCheked(values.status['humidifier'])
+            ui.humidifier.setEnabled(False)
+
         except Exception as e:
             print(str(e))
         self.updateActuatorSignal.emit()
@@ -363,10 +398,11 @@ class Manager(QtCore.QThread):
     def update_settings(self, mode):
         if mode == 'manual':
             ui.settings_temp.setText(str(values.manu_settings['temp'][0]))
-            # ui.temp_dial.setMax()
-            # ui.temp_dial.setMin()
+            ui.temp_dial.setMaximum(int(values.manu_settings['temp'][0]*2))
             ui.settings_humid.setText(str(values.manu_settings['humid'][0]))
+            ui.humid_dial.setMaximum(int(values.manu_settings['humid'][0]))
             ui.settings_co2.setText(str(values.manu_settings['co2'][0]))
+            ui.co2_dial.setMaximum(int(values.manu_settings['co2'][0]*2))
             ui.manu_temp.setValue(values.manu_settings['temp'][0])
             ui.manu_temp_range.setValue(values.manu_settings['temp'][1])
             ui.manu_humid.setValue(values.manu_settings['humid'][0])
@@ -392,7 +428,6 @@ class Manager(QtCore.QThread):
             ui.auto_days.setValue(values.auto_settings['actTime'][0])
             ui.auto_hours.setValue(values.auto_settings['actTime'][1])
 
-
     def alert(self, message):
         msgbox = QtWidgets.QMessageBox()
         msgbox.setIcon(QtWidgets.QMessageBox.Information)
@@ -400,13 +435,19 @@ class Manager(QtCore.QThread):
         msgbox.setStandardButtons(QtWidgets.QMessageBox.Ok)
         subapp = msgbox.exec_()
 
+    def save_data(self):
+        pass
+
+    def button_test(self):
+        ui.heater.setEnabled(True)
+
     def update_state(self):
         ui.cur_temp_1.setText(str(float(values.temp)))
-        ui.temp_dial.setValue()
+        ui.temp_dial.setValue(int(values.temp))
         ui.cur_humid_1.setText(str(int(values.humid)))
-        ui.humid_dial.setValue()
+        ui.humid_dial.setValue(int(values.humid))
         ui.cur_co2_1.setText(str(int(values.co2)))
-        ui.co2_dial.setValue()
+        ui.co2_dial.setValue(int(values.co2))
         ui.sens_time.setText(values.time)
 
     def update_actuator(self):
@@ -426,15 +467,14 @@ class Manager(QtCore.QThread):
         global main_view, humid_view, co2_view
         main_view.clear()
         if ui.temp_check.isChecked():
-            main_view.addItem(pg.PlotCurveItem(values.temp, pen='#FF0000'))
+            main_view.addItem(pg.PlotCurveItem(values.temp, pen='#FF8200'))
         humid_view.clear()
         if ui.humid_check.isChecked():
-            humid_view.addItem(pg.PlotCurveItem(values.humid, pen='#0000FF'))
+            humid_view.addItem(pg.PlotCurveItem(values.humid, pen='#1EDC00'))
         co2_view.clear()
         if ui.co2_check.isChecked():
             co2_view.clear()
-            co2_view.addItem(pg.PlotCurveItem(values.co2, pen='#0F0F0F'))
-        # plotItem.showGrid(True, True, 0.3)
+            co2_view.addItem(pg.PlotCurveItem(values.co2, pen='#B400FA'))
 
     def fix_graph(self, fix=True):
         # fix is True or False
@@ -491,12 +531,16 @@ if __name__ == '__main__':
     pg.setConfigOption('foreground', 'k')
     pg.setConfigOption('background', 'w')
     pg.setConfigOptions(antialias=True)
+    INSERT_DATA = 'INSERT INTO data(time, temperature, humidity, co2) VALUES(?, ?, ?, ?)'
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(mainWindow)
 
+    font11 = QtGui.QFont('나눔스퀘어', 11)
+
     humid_axis = pg.AxisItem('left')
+    humid_axis.tickFont = font11
     humid_view = pg.ViewBox()
 
     layout = pg.GraphicsLayout()
@@ -505,24 +549,26 @@ if __name__ == '__main__':
     layout.addItem(humid_axis, row=2, col=1, rowspan=1, colspan=1)
 
     plotItem = pg.PlotItem()
+    plotItem.getAxis('left').tickFont = font11
+    plotItem.getAxis('left').setWidth(60)
+    plotItem.getAxis('bottom').tickFont = QtGui.QFont('나눔스퀘어', 11)
+    plotItem.showGrid(True, True, 0.5)
     main_view = plotItem.vb
     layout.addItem(plotItem, row=2, col=2, rowspan=1, colspan=1)
 
     layout.scene().addItem(humid_view)
     humid_axis.linkToView(humid_view)
     humid_view.setXLink(main_view)
-
-    plotItem.getAxis('left').setLabel('온도', color='#FF0000')
-    humid_axis.setLabel('습도', color='#0000FF')
+    humid_axis.setWidth(60)
 
     co2_view = pg.ViewBox()
     co2_axis = pg.AxisItem('right')
+    co2_axis.tickFont = font11
     plotItem.layout.addItem(co2_axis, 2, 3)
     plotItem.scene().addItem(co2_view)
     co2_axis.linkToView(co2_view)
     co2_view.setXLink(plotItem)
-    co2_axis.setZValue(-10000)
-    co2_axis.setLabel('co2', color='#0F0F0F')
+    co2_axis.setWidth(60)
 
     main_view.sigResized.connect(lambda: updateViews(main_view, humid_view, co2_view))
 

@@ -451,7 +451,7 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{border:1px solid rgb(80,100,145);
-background:rgba(255,255,255,130);
+background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));
 border-radius:45px;
 color:rgb(80,100,120);}
 QPushButton:checked{
@@ -488,7 +488,7 @@ color:white;}</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{border:1px solid rgb(80,100,145);
-background:rgba(255,255,255,130);
+background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));
 border-radius:45px;
 color:rgb(80,100,120);}
 QPushButton:checked{
@@ -931,7 +931,7 @@ color:white;}</string>
      </palette>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QFrame" name="frame">
@@ -1456,10 +1456,13 @@ color:rgb(10,10,10);</string>
         </palette>
        </property>
        <property name="minimum">
-        <number>-50</number>
+        <number>0</number>
        </property>
        <property name="maximum">
-        <number>50</number>
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
        </property>
       </widget>
       <widget class="QLabel" name="label">
@@ -2503,10 +2506,10 @@ color:rgb(10,10,10);</string>
       </property>
       <property name="font">
        <font>
-        <family>맑은 고딕</family>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>함초롬돋움</family>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -2522,7 +2525,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&lt;        </string>
+       <string>&lt;       </string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -2545,10 +2548,10 @@ color:white;}</string>
       </property>
       <property name="font">
        <font>
-        <family>맑은 고딕</family>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>함초롬돋움</family>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -2564,7 +2567,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>        &gt;</string>
+       <string>       &gt;</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -2822,7 +2825,7 @@ border:1px solid rgb(158, 193, 203);
       <property name="geometry">
        <rect>
         <x>870</x>
-        <y>20</y>
+        <y>10</y>
         <width>61</width>
         <height>31</height>
        </rect>
@@ -2843,8 +2846,8 @@ border:1px solid rgb(158, 193, 203);
      <widget class="QRadioButton" name="fix_check">
       <property name="geometry">
        <rect>
-        <x>815</x>
-        <y>20</y>
+        <x>810</x>
+        <y>10</y>
         <width>61</width>
         <height>31</height>
        </rect>
@@ -2868,8 +2871,8 @@ border:1px solid rgb(158, 193, 203);
      <widget class="QCheckBox" name="temp_check">
       <property name="geometry">
        <rect>
-        <x>255</x>
-        <y>20</y>
+        <x>250</x>
+        <y>10</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -2881,7 +2884,8 @@ border:1px solid rgb(158, 193, 203);
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color:transparent</string>
+       <string notr="true">background-color:transparent;
+color:rgb(255, 130, 0)</string>
       </property>
       <property name="text">
        <string>온도</string>
@@ -2893,8 +2897,8 @@ border:1px solid rgb(158, 193, 203);
      <widget class="QCheckBox" name="humid_check">
       <property name="geometry">
        <rect>
-        <x>315</x>
-        <y>20</y>
+        <x>310</x>
+        <y>10</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -2906,7 +2910,8 @@ border:1px solid rgb(158, 193, 203);
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color:transparent</string>
+       <string notr="true">background-color:transparent;
+color: rgb(30, 220, 0);</string>
       </property>
       <property name="text">
        <string>습도</string>
@@ -2918,8 +2923,8 @@ border:1px solid rgb(158, 193, 203);
      <widget class="QCheckBox" name="co2_check">
       <property name="geometry">
        <rect>
-        <x>375</x>
-        <y>20</y>
+        <x>370</x>
+        <y>10</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -2931,7 +2936,8 @@ border:1px solid rgb(158, 193, 203);
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color:transparent</string>
+       <string notr="true">background-color:transparent;
+color:rgb(180, 0, 250)</string>
       </property>
       <property name="text">
        <string>Co2</string>
@@ -2944,13 +2950,14 @@ border:1px solid rgb(158, 193, 203);
       <property name="geometry">
        <rect>
         <x>245</x>
-        <y>20</y>
+        <y>40</y>
         <width>685</width>
-        <height>331</height>
+        <height>311</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">border:1px solid grey;
+border-radius:5px</string>
       </property>
      </widget>
      <widget class="QPushButton" name="graph_r">
@@ -2964,10 +2971,10 @@ border:1px solid rgb(158, 193, 203);
       </property>
       <property name="font">
        <font>
-        <family>맑은 고딕</family>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>함초롬돋움</family>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -2983,7 +2990,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>        &gt;</string>
+       <string>       &gt;</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -3007,7 +3014,7 @@ color:white;}</string>
       <property name="font">
        <font>
         <family>함초롬돋움</family>
-        <pointsize>14</pointsize>
+        <pointsize>13</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -3025,7 +3032,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&lt;        </string>
+       <string>&lt;       </string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -3720,6 +3727,81 @@ color:white</string>
        <string/>
       </property>
      </widget>
+     <widget class="QLabel" name="label_26">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>160</y>
+        <width>41</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>나눔스퀘어</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(30, 220, 0);</string>
+      </property>
+      <property name="text">
+       <string>습도</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_27">
+      <property name="geometry">
+       <rect>
+        <x>315</x>
+        <y>160</y>
+        <width>41</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>나눔스퀘어</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:rgb(255, 130, 0)</string>
+      </property>
+      <property name="text">
+       <string>온도</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_29">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>160</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>나눔스퀘어</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:rgb(180, 0, 250)</string>
+      </property>
+      <property name="text">
+       <string>Co2</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
      <zorder>graphicsView</zorder>
      <zorder>unfix_check</zorder>
      <zorder>fix_check</zorder>
@@ -3733,6 +3815,9 @@ color:white</string>
      <zorder>graph_r</zorder>
      <zorder>label_16</zorder>
      <zorder>graph_l</zorder>
+     <zorder>label_26</zorder>
+     <zorder>label_27</zorder>
+     <zorder>label_29</zorder>
     </widget>
     <widget class="QWidget" name="page_3">
      <widget class="QFrame" name="frame_15">
@@ -4184,7 +4269,7 @@ border-bottom-right-radius:5px;</string>
 border:transparent</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page_4">
          <widget class="QFrame" name="frame_20">
@@ -4632,7 +4717,7 @@ border:1px solid rgb(130,130,130);
 border-radius:5px;
 background-color:rgba(255,255,255,200);
 color:rgb(100,100,100);}
-QPushButton:pressed{
+QPushButton:checked{
 border:transparent;
 background-color:rgba(0,0,0,185);
 border-radius:5px;
@@ -4640,6 +4725,12 @@ color:white;}</string>
           </property>
           <property name="text">
            <string>적용</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>false</bool>
           </property>
          </widget>
          <widget class="QLabel" name="label_24">
@@ -9244,7 +9335,7 @@ border:1px solid rgb(130,130,130);
 border-radius:5px;
 background-color:rgba(255,255,255,200);
 color:rgb(100,100,100);}
-QPushButton:pressed{
+QPushButton:checked{
 border:transparent;
 background-color:rgba(0,0,0,185);
 border-radius:5px;
@@ -9252,6 +9343,12 @@ color:white;}</string>
           </property>
           <property name="text">
            <string>적용</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>false</bool>
           </property>
          </widget>
          <widget class="QSpinBox" name="auto_hours">
@@ -9636,10 +9733,10 @@ color:white;</string>
       </property>
       <property name="font">
        <font>
-        <family>맑은 고딕</family>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>함초롬돋움</family>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -9655,7 +9752,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>        &gt;</string>
+       <string>       &gt;</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -9678,10 +9775,10 @@ color:white;}</string>
       </property>
       <property name="font">
        <font>
-        <family>맑은 고딕</family>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>함초롬돋움</family>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -9697,7 +9794,7 @@ border-radius:30px;
 color:white;}</string>
       </property>
       <property name="text">
-       <string>&lt;        </string>
+       <string>&lt;       </string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -10098,7 +10195,7 @@ color:white</string>
      <widget class="QLabel" name="label_17">
       <property name="geometry">
        <rect>
-        <x>31</x>
+        <x>32</x>
         <y>169</y>
         <width>24</width>
         <height>24</height>
@@ -10140,7 +10237,7 @@ color:white</string>
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>10</y>
+      <y>20</y>
       <width>721</width>
       <height>101</height>
      </rect>
@@ -10183,7 +10280,7 @@ color:white</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{border:1px solid rgb(80,100,145);
-background:rgba(255,255,255,130);
+background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));
 border-radius:45px;
 color:rgb(80,100,120);}
 QPushButton:checked{
@@ -10220,7 +10317,7 @@ color:white;}</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{border:1px solid rgb(80,100,145);
-background:rgba(255,255,255,130);
+background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));
 border-radius:45px;
 color:rgb(80,100,120);}
 QPushButton:checked{
@@ -10257,7 +10354,7 @@ color:white;}</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{border:1px solid rgb(80,100,145);
-background:rgba(255,255,255,130);
+background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));
 border-radius:45px;
 color:rgb(80,100,120);}
 QPushButton:checked{
@@ -10320,8 +10417,8 @@ color:white;}
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
-      <x>755</x>
-      <y>10</y>
+      <x>750</x>
+      <y>20</y>
       <width>261</width>
       <height>121</height>
      </rect>
@@ -10339,7 +10436,7 @@ color:white;}
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>20</y>
+       <y>22</y>
        <width>211</width>
        <height>41</height>
       </rect>
@@ -10366,9 +10463,9 @@ color:white;}
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
+       <y>15</y>
        <width>241</width>
-       <height>81</height>
+       <height>71</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -10382,9 +10479,9 @@ border-radius:5px;</string>
     <widget class="QLabel" name="sens_time">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>130</x>
        <y>50</y>
-       <width>221</width>
+       <width>111</width>
        <height>41</height>
       </rect>
      </property>
@@ -10406,11 +10503,39 @@ border-radius:5px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QLabel" name="sens_time_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>151</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>나눔스퀘어 Light</family>
+       <pointsize>11</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
+     <property name="text">
+      <string>최종 측정 시간  |</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
     <zorder>label_28</zorder>
     <zorder>cur_time</zorder>
     <zorder>sens_time</zorder>
+    <zorder>sens_time_2</zorder>
    </widget>
-   <widget class="QPushButton" name="heater_2">
+   <widget class="QPushButton" name="start">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -10429,7 +10554,7 @@ border-radius:5px;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{border:1px solid rgb(80,100,145);
-background:rgba(255,255,255,130);
+background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));
 border-radius:45px;
 color:rgb(80,100,120);}
 QPushButton:checked{
@@ -10559,7 +10684,7 @@ color:white;}</string>
    <zorder>label_10</zorder>
    <zorder>dryer</zorder>
    <zorder>label_11</zorder>
-   <zorder>heater_2</zorder>
+   <zorder>start</zorder>
   </widget>
  </widget>
  <customwidgets>

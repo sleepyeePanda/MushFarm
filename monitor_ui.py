@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'base.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.1
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -162,7 +161,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.led.setFont(font)
         self.led.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
-"background:rgba(255,255,255,130);\n"
+"background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
 "QPushButton:checked{\n"
@@ -181,7 +180,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.dryer.setFont(font)
         self.dryer.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
-"background:rgba(255,255,255,130);\n"
+"background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
 "QPushButton:checked{\n"
@@ -511,8 +510,9 @@ class Ui_MainWindow(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
         self.temp_dial.setPalette(palette)
-        self.temp_dial.setMinimum(-50)
-        self.temp_dial.setMaximum(50)
+        self.temp_dial.setMinimum(0)
+        self.temp_dial.setMaximum(100)
+        self.temp_dial.setProperty("value", 0)
         self.temp_dial.setObjectName("temp_dial")
         self.label = QtWidgets.QLabel(self.frame)
         self.label.setGeometry(QtCore.QRect(80, 90, 71, 21))
@@ -882,10 +882,10 @@ class Ui_MainWindow(object):
         self.main_l = QtWidgets.QPushButton(self.page)
         self.main_l.setGeometry(QtCore.QRect(10, 150, 61, 61))
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("함초롬돋움")
+        font.setPointSize(13)
+        font.setBold(False)
+        font.setWeight(50)
         self.main_l.setFont(font)
         self.main_l.setStyleSheet("QPushButton{\n"
 "border:1px solid rgb(130,130,130);\n"
@@ -904,10 +904,10 @@ class Ui_MainWindow(object):
         self.main_r = QtWidgets.QPushButton(self.page)
         self.main_r.setGeometry(QtCore.QRect(950, 150, 61, 61))
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("함초롬돋움")
+        font.setPointSize(13)
+        font.setBold(False)
+        font.setWeight(50)
         self.main_r.setFont(font)
         self.main_r.setStyleSheet("QPushButton{\n"
 "border:1px solid rgb(130,130,130);\n"
@@ -1035,7 +1035,7 @@ class Ui_MainWindow(object):
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
         self.unfix_check = QtWidgets.QRadioButton(self.page_2)
-        self.unfix_check.setGeometry(QtCore.QRect(870, 20, 61, 31))
+        self.unfix_check.setGeometry(QtCore.QRect(870, 10, 61, 31))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
@@ -1043,7 +1043,7 @@ class Ui_MainWindow(object):
         self.unfix_check.setStyleSheet("background-color:transparent")
         self.unfix_check.setObjectName("unfix_check")
         self.fix_check = QtWidgets.QRadioButton(self.page_2)
-        self.fix_check.setGeometry(QtCore.QRect(815, 20, 61, 31))
+        self.fix_check.setGeometry(QtCore.QRect(810, 10, 61, 31))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
@@ -1052,43 +1052,47 @@ class Ui_MainWindow(object):
         self.fix_check.setChecked(True)
         self.fix_check.setObjectName("fix_check")
         self.temp_check = QtWidgets.QCheckBox(self.page_2)
-        self.temp_check.setGeometry(QtCore.QRect(255, 20, 81, 31))
+        self.temp_check.setGeometry(QtCore.QRect(250, 10, 81, 31))
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(12)
         self.temp_check.setFont(font)
-        self.temp_check.setStyleSheet("background-color:transparent")
+        self.temp_check.setStyleSheet("background-color:transparent;\n"
+"color:rgb(255, 130, 0)")
         self.temp_check.setChecked(True)
         self.temp_check.setObjectName("temp_check")
         self.humid_check = QtWidgets.QCheckBox(self.page_2)
-        self.humid_check.setGeometry(QtCore.QRect(315, 20, 81, 31))
+        self.humid_check.setGeometry(QtCore.QRect(310, 10, 81, 31))
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(12)
         self.humid_check.setFont(font)
-        self.humid_check.setStyleSheet("background-color:transparent")
+        self.humid_check.setStyleSheet("background-color:transparent;\n"
+"color: rgb(30, 220, 0);")
         self.humid_check.setChecked(True)
         self.humid_check.setObjectName("humid_check")
         self.co2_check = QtWidgets.QCheckBox(self.page_2)
-        self.co2_check.setGeometry(QtCore.QRect(375, 20, 81, 31))
+        self.co2_check.setGeometry(QtCore.QRect(370, 10, 81, 31))
         font = QtGui.QFont()
         font.setFamily("맑은 고딕")
         font.setPointSize(12)
         self.co2_check.setFont(font)
-        self.co2_check.setStyleSheet("background-color:transparent")
+        self.co2_check.setStyleSheet("background-color:transparent;\n"
+"color:rgb(180, 0, 250)")
         self.co2_check.setChecked(True)
         self.co2_check.setObjectName("co2_check")
         self.graphicsView = PlotWidget(self.page_2)
-        self.graphicsView.setGeometry(QtCore.QRect(245, 20, 685, 331))
-        self.graphicsView.setStyleSheet("")
+        self.graphicsView.setGeometry(QtCore.QRect(245, 40, 685, 311))
+        self.graphicsView.setStyleSheet("border:1px solid grey;\n"
+"border-radius:5px")
         self.graphicsView.setObjectName("graphicsView")
         self.graph_r = QtWidgets.QPushButton(self.page_2)
         self.graph_r.setGeometry(QtCore.QRect(950, 150, 61, 61))
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("함초롬돋움")
+        font.setPointSize(13)
+        font.setBold(False)
+        font.setWeight(50)
         self.graph_r.setFont(font)
         self.graph_r.setStyleSheet("QPushButton{\n"
 "border:1px solid rgb(130,130,130);\n"
@@ -1108,7 +1112,7 @@ class Ui_MainWindow(object):
         self.graph_l.setGeometry(QtCore.QRect(10, 150, 61, 61))
         font = QtGui.QFont()
         font.setFamily("함초롬돋움")
-        font.setPointSize(14)
+        font.setPointSize(13)
         font.setBold(False)
         font.setWeight(50)
         self.graph_l.setFont(font)
@@ -1385,6 +1389,33 @@ class Ui_MainWindow(object):
         self.label_16.setStyleSheet("background-image:url(:/img/resources/web-page-home.png)")
         self.label_16.setText("")
         self.label_16.setObjectName("label_16")
+        self.label_26 = QtWidgets.QLabel(self.page_2)
+        self.label_26.setGeometry(QtCore.QRect(250, 160, 41, 16))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(11)
+        self.label_26.setFont(font)
+        self.label_26.setStyleSheet("color: rgb(30, 220, 0);")
+        self.label_26.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_26.setObjectName("label_26")
+        self.label_27 = QtWidgets.QLabel(self.page_2)
+        self.label_27.setGeometry(QtCore.QRect(310, 160, 41, 16))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(11)
+        self.label_27.setFont(font)
+        self.label_27.setStyleSheet("color:rgb(255, 130, 0)")
+        self.label_27.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_27.setObjectName("label_27")
+        self.label_29 = QtWidgets.QLabel(self.page_2)
+        self.label_29.setGeometry(QtCore.QRect(880, 160, 51, 20))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(11)
+        self.label_29.setFont(font)
+        self.label_29.setStyleSheet("color:rgb(180, 0, 250)")
+        self.label_29.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_29.setObjectName("label_29")
         self.graphicsView.raise_()
         self.unfix_check.raise_()
         self.fix_check.raise_()
@@ -1398,6 +1429,9 @@ class Ui_MainWindow(object):
         self.graph_r.raise_()
         self.label_16.raise_()
         self.graph_l.raise_()
+        self.label_26.raise_()
+        self.label_27.raise_()
+        self.label_29.raise_()
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
@@ -1823,11 +1857,13 @@ class Ui_MainWindow(object):
 "border-radius:5px;\n"
 "background-color:rgba(255,255,255,200);\n"
 "color:rgb(100,100,100);}\n"
-"QPushButton:pressed{\n"
+"QPushButton:checked{\n"
 "border:transparent;\n"
 "background-color:rgba(0,0,0,185);\n"
 "border-radius:5px;\n"
 "color:white;}")
+        self.manu_apply.setCheckable(True)
+        self.manu_apply.setAutoExclusive(False)
         self.manu_apply.setObjectName("manu_apply")
         self.label_24 = QtWidgets.QLabel(self.page_4)
         self.label_24.setGeometry(QtCore.QRect(20, 20, 91, 31))
@@ -3600,11 +3636,13 @@ class Ui_MainWindow(object):
 "border-radius:5px;\n"
 "background-color:rgba(255,255,255,200);\n"
 "color:rgb(100,100,100);}\n"
-"QPushButton:pressed{\n"
+"QPushButton:checked{\n"
 "border:transparent;\n"
 "background-color:rgba(0,0,0,185);\n"
 "border-radius:5px;\n"
 "color:white;}")
+        self.auto_apply.setCheckable(True)
+        self.auto_apply.setAutoExclusive(False)
         self.auto_apply.setObjectName("auto_apply")
         self.auto_hours = QtWidgets.QSpinBox(self.page_5)
         self.auto_hours.setGeometry(QtCore.QRect(320, 170, 61, 31))
@@ -3825,10 +3863,10 @@ class Ui_MainWindow(object):
         self.settings_r = QtWidgets.QPushButton(self.page_3)
         self.settings_r.setGeometry(QtCore.QRect(950, 150, 61, 61))
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("함초롬돋움")
+        font.setPointSize(13)
+        font.setBold(False)
+        font.setWeight(50)
         self.settings_r.setFont(font)
         self.settings_r.setStyleSheet("QPushButton{\n"
 "border:1px solid rgb(130,130,130);\n"
@@ -3847,10 +3885,10 @@ class Ui_MainWindow(object):
         self.settings_l = QtWidgets.QPushButton(self.page_3)
         self.settings_l.setGeometry(QtCore.QRect(10, 150, 61, 61))
         font = QtGui.QFont()
-        font.setFamily("맑은 고딕")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("함초롬돋움")
+        font.setPointSize(13)
+        font.setBold(False)
+        font.setWeight(50)
         self.settings_l.setFont(font)
         self.settings_l.setStyleSheet("QPushButton{\n"
 "border:1px solid rgb(130,130,130);\n"
@@ -4046,7 +4084,7 @@ class Ui_MainWindow(object):
         self.label_15.setText("")
         self.label_15.setObjectName("label_15")
         self.label_17 = QtWidgets.QLabel(self.page_3)
-        self.label_17.setGeometry(QtCore.QRect(31, 169, 24, 24))
+        self.label_17.setGeometry(QtCore.QRect(32, 169, 24, 24))
         self.label_17.setStyleSheet("background-image:url(:/img/resources/stats.png)")
         self.label_17.setText("")
         self.label_17.setObjectName("label_17")
@@ -4064,7 +4102,7 @@ class Ui_MainWindow(object):
         self.label_5.setText("")
         self.label_5.setObjectName("label_5")
         self.title = QtWidgets.QLabel(self.centralwidget)
-        self.title.setGeometry(QtCore.QRect(40, 10, 721, 101))
+        self.title.setGeometry(QtCore.QRect(40, 20, 721, 101))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어 Light")
         font.setPointSize(38)
@@ -4084,7 +4122,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.fan.setFont(font)
         self.fan.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
-"background:rgba(255,255,255,130);\n"
+"background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
 "QPushButton:checked{\n"
@@ -4103,7 +4141,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.humidifier.setFont(font)
         self.humidifier.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
-"background:rgba(255,255,255,130);\n"
+"background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
 "QPushButton:checked{\n"
@@ -4122,7 +4160,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.heater.setFont(font)
         self.heater.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
-"background:rgba(255,255,255,130);\n"
+"background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
 "QPushButton:checked{\n"
@@ -4155,13 +4193,13 @@ class Ui_MainWindow(object):
         self.power.setAutoExclusive(True)
         self.power.setObjectName("power")
         self.frame_2 = QtWidgets.QFrame(self.centralwidget)
-        self.frame_2.setGeometry(QtCore.QRect(755, 10, 261, 121))
+        self.frame_2.setGeometry(QtCore.QRect(750, 20, 261, 121))
         self.frame_2.setStyleSheet("background:transparent")
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.cur_time = QtWidgets.QLabel(self.frame_2)
-        self.cur_time.setGeometry(QtCore.QRect(30, 20, 211, 41))
+        self.cur_time.setGeometry(QtCore.QRect(30, 22, 211, 41))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(28)
@@ -4172,13 +4210,13 @@ class Ui_MainWindow(object):
         self.cur_time.setAlignment(QtCore.Qt.AlignCenter)
         self.cur_time.setObjectName("cur_time")
         self.label_28 = QtWidgets.QLabel(self.frame_2)
-        self.label_28.setGeometry(QtCore.QRect(10, 10, 241, 81))
+        self.label_28.setGeometry(QtCore.QRect(10, 15, 241, 71))
         self.label_28.setStyleSheet("background:qlineargradient(spread:pad, x1:0.3, y1:0.3, x2:1, y2:1, stop:0 rgba(55, 55, 55, 200), stop:1 rgba(25, 25, 25, 234));\n"
 "border-radius:5px;")
         self.label_28.setText("")
         self.label_28.setObjectName("label_28")
         self.sens_time = QtWidgets.QLabel(self.frame_2)
-        self.sens_time.setGeometry(QtCore.QRect(20, 50, 221, 41))
+        self.sens_time.setGeometry(QtCore.QRect(130, 50, 111, 41))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어 Light")
         font.setPointSize(11)
@@ -4188,19 +4226,31 @@ class Ui_MainWindow(object):
         self.sens_time.setStyleSheet("color:white;")
         self.sens_time.setAlignment(QtCore.Qt.AlignCenter)
         self.sens_time.setObjectName("sens_time")
+        self.sens_time_2 = QtWidgets.QLabel(self.frame_2)
+        self.sens_time_2.setGeometry(QtCore.QRect(10, 50, 151, 41))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어 Light")
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setWeight(50)
+        self.sens_time_2.setFont(font)
+        self.sens_time_2.setStyleSheet("color:white;")
+        self.sens_time_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.sens_time_2.setObjectName("sens_time_2")
         self.label_28.raise_()
         self.cur_time.raise_()
         self.sens_time.raise_()
-        self.heater_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.heater_2.setGeometry(QtCore.QRect(200, 490, 91, 91))
+        self.sens_time_2.raise_()
+        self.start = QtWidgets.QPushButton(self.centralwidget)
+        self.start.setGeometry(QtCore.QRect(200, 490, 91, 91))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
         font.setBold(False)
         font.setWeight(50)
-        self.heater_2.setFont(font)
-        self.heater_2.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
-"background:rgba(255,255,255,130);\n"
+        self.start.setFont(font)
+        self.start.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
+"background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
 "QPushButton:checked{\n"
@@ -4208,8 +4258,8 @@ class Ui_MainWindow(object):
 "background-color:rgba(40,95,250,160);\n"
 "border-radius:45px;\n"
 "color:white;}")
-        self.heater_2.setCheckable(True)
-        self.heater_2.setObjectName("heater_2")
+        self.start.setCheckable(True)
+        self.start.setObjectName("start")
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
         self.label_6.setGeometry(QtCore.QRect(343, 510, 24, 24))
         self.label_6.setStyleSheet("background-image:url(:/img/resources/heater.png)")
@@ -4256,12 +4306,12 @@ class Ui_MainWindow(object):
         self.label_10.raise_()
         self.dryer.raise_()
         self.label_11.raise_()
-        self.heater_2.raise_()
+        self.start.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
-        self.stackedWidget_2.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -4281,8 +4331,8 @@ class Ui_MainWindow(object):
         self.label_18.setText(_translate("MainWindow", "ppm"))
         self.settings_co2.setText(_translate("MainWindow", "1000"))
         self.label_4.setText(_translate("MainWindow", "Co2"))
-        self.main_l.setText(_translate("MainWindow", "<        "))
-        self.main_r.setText(_translate("MainWindow", "        >"))
+        self.main_l.setText(_translate("MainWindow", "<       "))
+        self.main_r.setText(_translate("MainWindow", "       >"))
         self.cur_humid_1.setText(_translate("MainWindow", "55"))
         self.label_19.setText(_translate("MainWindow", "%"))
         self.settings_humid.setText(_translate("MainWindow", "100"))
@@ -4293,8 +4343,8 @@ class Ui_MainWindow(object):
         self.temp_check.setText(_translate("MainWindow", "온도"))
         self.humid_check.setText(_translate("MainWindow", "습도"))
         self.co2_check.setText(_translate("MainWindow", "Co2"))
-        self.graph_r.setText(_translate("MainWindow", "        >"))
-        self.graph_l.setText(_translate("MainWindow", "<        "))
+        self.graph_r.setText(_translate("MainWindow", "       >"))
+        self.graph_l.setText(_translate("MainWindow", "<       "))
         self.cur_temp_2.setText(_translate("MainWindow", "00.0"))
         self.label_43.setText(_translate("MainWindow", " °C"))
         self.label_30.setText(_translate("MainWindow", "온도"))
@@ -4304,6 +4354,9 @@ class Ui_MainWindow(object):
         self.label_73.setText(_translate("MainWindow", "ppm"))
         self.cur_co2_2.setText(_translate("MainWindow", "0000"))
         self.label_32.setText(_translate("MainWindow", "Co2"))
+        self.label_26.setText(_translate("MainWindow", "습도"))
+        self.label_27.setText(_translate("MainWindow", "온도"))
+        self.label_29.setText(_translate("MainWindow", "Co2"))
         self.label_23.setText(_translate("MainWindow", "연결 포트"))
         self.connect.setText(_translate("MainWindow", "연결"))
         self.connect_3.setText(_translate("MainWindow", "해제"))
@@ -4344,8 +4397,8 @@ class Ui_MainWindow(object):
         self.label_71.setText(_translate("MainWindow", "±"))
         self.manual_mode.setText(_translate("MainWindow", "수동 모드"))
         self.auto_mode.setText(_translate("MainWindow", "자동 모드"))
-        self.settings_r.setText(_translate("MainWindow", "        >"))
-        self.settings_l.setText(_translate("MainWindow", "<        "))
+        self.settings_r.setText(_translate("MainWindow", "       >"))
+        self.settings_l.setText(_translate("MainWindow", "<       "))
         self.label_47.setText(_translate("MainWindow", "주기"))
         self.label_74.setText(_translate("MainWindow", "시간"))
         self.label_75.setText(_translate("MainWindow", "분"))
@@ -4364,14 +4417,13 @@ class Ui_MainWindow(object):
         self.power.setText(_translate("MainWindow", "X"))
         self.cur_time.setText(_translate("MainWindow", "12 : 59 : 59"))
         self.sens_time.setText(_translate("MainWindow", "12 : 59 : 59"))
-        self.heater_2.setText(_translate("MainWindow", "\n"
+        self.sens_time_2.setText(_translate("MainWindow", "최종 측정 시간  |"))
+        self.start.setText(_translate("MainWindow", "\n"
 "\n"
 "시작"))
 
-
 from pyqtgraph import PlotWidget
 import resources_rc
-
 
 if __name__ == "__main__":
     import sys
@@ -4381,3 +4433,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
