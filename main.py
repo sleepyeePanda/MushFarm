@@ -19,12 +19,12 @@ class UartCom:
     def __init__(self):
         self.get_com()
         ui.connect.clicked.connect(self.connect_serial)
-        # ui.disconnect.clicked.connect(self.disconnect_serial)
-        ui.heater.clicked.connect(self.control_heater_power)
-        ui.humidifier.clicked.connect(self.control_humid_power)
-        ui.fan.clicked.connect(self.control_fan_power)
+        ui.disconnect.clicked.connect(self.disconnect_serial)
+        ui.heater.clicked.connect(partial(self.control_heater_power, init=False))
+        ui.humidifier.clicked.connect(partial(self.control_humid_power, init=False))
+        ui.fan.clicked.connect(partial(self.control_fan_power, init=False))
         # ui.dryer.clicked.connect(self.control_dryer_power)
-        ui.led.clicked.connect(self.control_led_power)
+        ui.led.clicked.connect(partial(self.control_led_power, init=False))
         ui.start.clicked.connect(lambda: self.manual_start() if ui.manu_apply.isChecked() else self.auto_start())
         ui.start.toggled.connect(lambda x: ui.start.setText('\n\n실행 중') if x else ui.start.setText('\n\n시작'))
         ui.manu_apply.clicked.connect(lambda: ui.auto_apply.setChecked(False))
@@ -33,6 +33,7 @@ class UartCom:
         self.auto_timer = None
         self.uart = None
         self.isLinux = False
+        self.t = None
         self.connect_serial()
 
     def get_com(self, waiting=0):
@@ -85,10 +86,12 @@ class UartCom:
             loop.run_forever()
         except KeyboardInterrupt:
             pass
+        except serial.serialutil.SerialException as se:
+            print(str(se))
+            print('serial exception occured')
         except Exception as e:
             print(str(e))
         finally:
-            loop.run_until_complete(loop.shutdown_asyncgens())
             loop.close()
         print('Closed Uart Thread!')
 
@@ -100,16 +103,21 @@ class UartCom:
             asyncio.set_event_loop(self.loop)
             if self.isLinux:
                 self.coro = serial_asyncio.create_serial_connection(self.loop,
-                                                                    lambda: UartProtocol(), com_no, baudrate=115200)
+                                                                    lambda: UartProtocol(self), com_no, baudrate=115200)
                 print(str(com_no)+' connected')
             else:
                 self.coro = serial_asyncio.create_serial_connection(self.loop,
-                                                                    lambda: UartProtocol(), com_no, baudrate=115200)
+                                                                    lambda: UartProtocol(self), com_no, baudrate=115200)
                 print(str(com_no)+' connected')
             self.loop.run_until_complete(self.coro)
 
             self.t = Thread(target=self.run, args=(self.loop,))
-            self.t.start()
+            self.t.setDaemon(True)
+            try:
+                self.t.start()
+            except serial.serialutil.SerialException as se:
+                ##
+                print(se)
             ui.connect.setText('완료')
             ui.connect.setChecked(True)
             ui.connect.setEnabled(False)
@@ -129,6 +137,7 @@ class UartCom:
         ui.connect.setText('연결')
         ui.connect.setEnabled(True)
         ui.coms.setEnabled(True)
+        ui.disconnect.setChecked(False)
 
     def send_init(self):
         if self.uart is not None:
@@ -169,11 +178,11 @@ class UartCom:
             msg = msgs[order]
             self.humid_act_timer = QtCore.QTimer()
             self.humid_act_timer.setSingleShot(True)
-            self.humid_act_timer.timeout.connect(self.control_humid_power(order=True))
+            self.humid_act_timer.timeout.connect(lambda: self.control_humid_power(order=True))
             # hours*60*60*1000msec
             # minutes*60*1000msec
-            self.humid_act_timer.start(values['humidifier']['act'][0]*3600000
-                                       + values['humidifier']['act'][1]*60000)
+            self.humid_act_timer.start(values.manu_settings['humidifier']['act'][0]*3600000
+                                       + values.manu_settings['humidifier']['act'][1]*60000)
         else:
             msg = msgs[values.status['humidifier']]
         self.send_msg(r'\x02MH1ST\x03\x0A\x0D' if init else msg)
@@ -190,13 +199,14 @@ class UartCom:
         msg = r'\x02ART'+str(values.auto_settings['temp'][0])+'H'+str(values.auto_settings['humid'][0])+ \
               'C'+str(values.auto_settings['co2'][0])+r'I000\x03\x0A\x0D'
         if self.send_msg(msg):
+            ui.start_back.setChecked(True)
             self.auto_timer = QtCore.QTimer()
             self.auto_timer.setSingleShot(True)
             self.auto_timer.timeout.connect(self.auto_stop)
             self.auto_timer.start(values.auto_settings['actTime'][0]*8640000 +
                                   values.auto_settings['actTime'][1]*360000)
         else:
-            ui.start.setChecked(False)
+            ui.start_back.setChecked(False)
 
     def auto_stop(self):
         self.send_msg(r'\x02ARSTOP\x03\x0A\x0D')
@@ -205,12 +215,13 @@ class UartCom:
         msg = r'\x02ART'+str(values.manu_settings['temp'][0])+'H'+str(values.manu_settings['humid'][0])+ \
               'C'+str(values.manu_settings['co2'][0])+r'I000\x03\x0A\x0D'
         if self.send_msg(msg):
+            ui.start_back.setChecked(True)
             self.manual_timer = QtCore.QTimer()
             self.manual_timer.setSingleShot(True)
             self.manual_timer.timeout.connect(self.manual_stop)
             self.humid_freq_timer = QtCore.QTimer()
             self.humid_freq_timer.setSingleShot(True)
-            self.humid_freq_timer.timeout.connect(lambda: self.control_humid_power(order=False))
+            self.humid_freq_timer.timeout.connect(lambda: self.control_humid_power(init=False, order=False))
             self.progress_timer = QtCore.QTimer()
             self.progress_timer.setSingleShot(True)
             self.progress_timer.timeout.connect(self.update_progress)
@@ -223,6 +234,8 @@ class UartCom:
             self.humid_freq_timer.start(values.manu_settings['humidifier']['freq'][0]*3600000 +
                                         values.manu_settings['humidifier']['freq'][1]*60000)
             self.progress_timer.start(1000)
+        else:
+            ui.start_back.setChecked(False)
 
     def update_progress(self):
         ui.progressBar.setValue(((self.grow_time - self.manual_timer.remainingTime()) / self.grow_time)*100)
@@ -230,16 +243,18 @@ class UartCom:
     def manual_stop(self):
         self.send_msg(r'\x02MRSTOP\x03\x0A\x0D')
 
+
 class UartProtocol(asyncio.Protocol):
-    def __init__(self):
+    def __init__(self, uartCom):
         super().__init__()
+        self.uartCom = uartCom
         self.rcvParser = RcvParser()
 
     def connection_made(self, transport):
         self.transport = transport
         print('port opened', transport)
         transport.serial.rts = False
-        uartCom.uart = transport
+        self.uartCom.uart = transport
 
     def data_received(self, data):
         message = data.decode()
@@ -307,11 +322,6 @@ class RcvParser(QtCore.QObject):
     def rcv_humid(self, info):
         try:
             values.status['humidifier'] = True if info[4] == 'O' else False
-
-            #####
-            ui.humidifier.setCheked(values.status['humidifier'])
-            ui.humidifier.setEnabled(False)
-
         except Exception as e:
             print(str(e))
         self.updateActuatorSignal.emit()
@@ -341,7 +351,7 @@ class RcvParser(QtCore.QObject):
         self.protocol = {'S1': self.rcv_state,
                          'MF': self.rcv_heater,
                          'MH': self.rcv_humid,
-                         #'MF': self.rcv_fan,
+                          #'MF': self.rcv_fan,
                          'ML': self.rcv_led}
 
 
@@ -376,6 +386,7 @@ class Manager(QtCore.QThread):
         buttons = [ui.graph_l, ui.settings_r, ui.main_r, ui.settings_l, ui.main_l, ui.graph_r]
         for i, button in enumerate(buttons):
             button.clicked.connect(partial(ui.stackedWidget.setCurrentIndex, i//2))
+
         ui.manual_mode.clicked.connect(lambda: ui.stackedWidget_2.setCurrentIndex(0))
         ui.manual_mode.clicked.connect(lambda: self.update_settings('manual'))
         ui.auto_mode.clicked.connect(lambda: ui.stackedWidget_2.setCurrentIndex(1))
@@ -451,10 +462,11 @@ class Manager(QtCore.QThread):
         ui.sens_time.setText(values.time)
 
     def update_actuator(self):
-        ui.heater.setChecked(values.status['heater'])
-        ui.humidifier.setChecked(values.status['humidifier'])
-        ui.fan.setChecked(values.status['fan'])
-        ui.led.setChecked(values.status['led'])
+        ui.heater_back.setChecked(values.status['heater'])
+        ui.humidifier_back.setChecked(values.status['humidifier'])
+        ui.fan_back.setChecked(values.status['fan'])
+        # ui.dryer_back.setChecked(values.status['dryer'])
+        ui.led_back.setChecked(values.status['led'])
 
     def update_graph(self):
         ui.graphicsView.clear()
@@ -467,14 +479,14 @@ class Manager(QtCore.QThread):
         global main_view, humid_view, co2_view
         main_view.clear()
         if ui.temp_check.isChecked():
-            main_view.addItem(pg.PlotCurveItem(values.temp, pen='#FF8200'))
+            main_view.addItem(pg.PlotCurveItem(values.temp, pen=pg.mkPen(color='#FF8200', width=3)))
         humid_view.clear()
         if ui.humid_check.isChecked():
-            humid_view.addItem(pg.PlotCurveItem(values.humid, pen='#1EDC00'))
+            humid_view.addItem(pg.PlotCurveItem(values.humid, pen=pg.mkPen(color='#1EDC00', width=3)))
         co2_view.clear()
         if ui.co2_check.isChecked():
             co2_view.clear()
-            co2_view.addItem(pg.PlotCurveItem(values.co2, pen='#B400FA'))
+            co2_view.addItem(pg.PlotCurveItem(values.co2, pen=pg.mkPen(color='#B400FA', width=3)))
 
     def fix_graph(self, fix=True):
         # fix is True or False
@@ -583,5 +595,8 @@ if __name__ == '__main__':
     # MainWindow.showFullScreen()
     mainWindow.show()
     app.exec_()
+    if uartCom.t and uartCom.t.isAlive():
+        uartCom.uart.loop.call_soon_threadsafe(uartCom.uart.loop.stop)
+    #uartCom.t.join()
     save_settings()
     sys.exit()

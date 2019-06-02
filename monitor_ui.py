@@ -152,15 +152,15 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.led = QtWidgets.QPushButton(self.centralwidget)
-        self.led.setGeometry(QtCore.QRect(750, 490, 91, 91))
+        self.led_back = QtWidgets.QPushButton(self.centralwidget)
+        self.led_back.setGeometry(QtCore.QRect(750, 490, 91, 91))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
         font.setBold(False)
         font.setWeight(50)
-        self.led.setFont(font)
-        self.led.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
+        self.led_back.setFont(font)
+        self.led_back.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
 "background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
@@ -169,17 +169,18 @@ class Ui_MainWindow(object):
 "background-color:rgba(40,95,250,160);\n"
 "border-radius:45px;\n"
 "color:white;}")
-        self.led.setCheckable(True)
-        self.led.setObjectName("led")
-        self.dryer = QtWidgets.QPushButton(self.centralwidget)
-        self.dryer.setGeometry(QtCore.QRect(640, 490, 91, 91))
+        self.led_back.setText("")
+        self.led_back.setCheckable(True)
+        self.led_back.setObjectName("led_back")
+        self.dryer_back = QtWidgets.QPushButton(self.centralwidget)
+        self.dryer_back.setGeometry(QtCore.QRect(640, 490, 91, 91))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
         font.setBold(False)
         font.setWeight(50)
-        self.dryer.setFont(font)
-        self.dryer.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
+        self.dryer_back.setFont(font)
+        self.dryer_back.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
 "background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
@@ -188,8 +189,9 @@ class Ui_MainWindow(object):
 "background-color:rgba(40,95,250,160);\n"
 "border-radius:45px;\n"
 "color:white;}")
-        self.dryer.setCheckable(True)
-        self.dryer.setObjectName("dryer")
+        self.dryer_back.setText("")
+        self.dryer_back.setCheckable(True)
+        self.dryer_back.setObjectName("dryer_back")
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedWidget.setGeometry(QtCore.QRect(0, 120, 1021, 371))
         palette = QtGui.QPalette()
@@ -1007,7 +1009,7 @@ class Ui_MainWindow(object):
 "background-color:qlineargradient(spread:pad, x1:0.3, y1:0.3, x2:1, y2:1, stop:0 rgba(245, 248, 254, 230), stop:1 rgba(158, 193, 203, 230));\n"
 "border:1px solid rgb(158, 193, 203);\n"
 "}")
-        self.progressBar.setProperty("value", 25)
+        self.progressBar.setProperty("value", 0)
         self.progressBar.setAlignment(QtCore.Qt.AlignCenter)
         self.progressBar.setOrientation(QtCore.Qt.Horizontal)
         self.progressBar.setInvertedAppearance(False)
@@ -1399,7 +1401,7 @@ class Ui_MainWindow(object):
         self.label_26.setAlignment(QtCore.Qt.AlignCenter)
         self.label_26.setObjectName("label_26")
         self.label_27 = QtWidgets.QLabel(self.page_2)
-        self.label_27.setGeometry(QtCore.QRect(310, 160, 41, 16))
+        self.label_27.setGeometry(QtCore.QRect(315, 160, 41, 16))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(11)
@@ -1520,15 +1522,15 @@ class Ui_MainWindow(object):
         self.coms.setStyleSheet("border:1px solid rgb(180,180,180);\n"
 "border-radius:4px;")
         self.coms.setObjectName("coms")
-        self.connect_3 = QtWidgets.QPushButton(self.frame_16)
-        self.connect_3.setGeometry(QtCore.QRect(120, 70, 81, 31))
+        self.disconnect = QtWidgets.QPushButton(self.frame_16)
+        self.disconnect.setGeometry(QtCore.QRect(120, 70, 81, 31))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(13)
         font.setBold(False)
         font.setWeight(50)
-        self.connect_3.setFont(font)
-        self.connect_3.setStyleSheet("QPushButton{\n"
+        self.disconnect.setFont(font)
+        self.disconnect.setStyleSheet("QPushButton{\n"
 "border:1px solid rgb(130,130,130);\n"
 "border-radius:5px;\n"
 "background-color:rgba(255,255,255,200);\n"
@@ -1538,8 +1540,8 @@ class Ui_MainWindow(object):
 "background-color:rgba(0,0,0,185);\n"
 "border-radius:5px;\n"
 "color:white;}")
-        self.connect_3.setCheckable(True)
-        self.connect_3.setObjectName("connect_3")
+        self.disconnect.setCheckable(True)
+        self.disconnect.setObjectName("disconnect")
         self.label_21 = QtWidgets.QLabel(self.frame_15)
         self.label_21.setGeometry(QtCore.QRect(10, 10, 231, 35))
         font = QtGui.QFont()
@@ -1811,7 +1813,7 @@ class Ui_MainWindow(object):
         self.humid_freq_m.setFrame(True)
         self.humid_freq_m.setAlignment(QtCore.Qt.AlignCenter)
         self.humid_freq_m.setMaximum(60)
-        self.humid_freq_m.setProperty("value", 60)
+        self.humid_freq_m.setProperty("value", 0)
         self.humid_freq_m.setObjectName("humid_freq_m")
         self.humid_act_m = QtWidgets.QSpinBox(self.frame_21)
         self.humid_act_m.setGeometry(QtCore.QRect(147, 110, 51, 31))
@@ -2412,7 +2414,7 @@ class Ui_MainWindow(object):
 " height: 15px;\n"
 "}")
         self.manu_co2.setAlignment(QtCore.Qt.AlignCenter)
-        self.manu_co2.setMaximum(1000)
+        self.manu_co2.setMaximum(2000)
         self.manu_co2.setObjectName("manu_co2")
         self.manu_days = QtWidgets.QSpinBox(self.page_4)
         self.manu_days.setGeometry(QtCore.QRect(110, 170, 61, 31))
@@ -2580,7 +2582,7 @@ class Ui_MainWindow(object):
 " height: 15px;\n"
 "}")
         self.manu_days.setAlignment(QtCore.Qt.AlignCenter)
-        self.manu_days.setMaximum(50)
+        self.manu_days.setMaximum(49)
         self.manu_days.setObjectName("manu_days")
         self.label_52 = QtWidgets.QLabel(self.page_4)
         self.label_52.setGeometry(QtCore.QRect(170, 170, 31, 31))
@@ -3120,7 +3122,8 @@ class Ui_MainWindow(object):
 " height: 15px;\n"
 "}")
         self.manu_co2_range.setAlignment(QtCore.Qt.AlignCenter)
-        self.manu_co2_range.setMaximum(1000)
+        self.manu_co2_range.setMaximum(2000)
+        self.manu_co2_range.setProperty("value", 0)
         self.manu_co2_range.setObjectName("manu_co2_range")
         self.manu_temp_range = QtWidgets.QSpinBox(self.page_4)
         self.manu_temp_range.setGeometry(QtCore.QRect(170, 20, 71, 31))
@@ -3739,7 +3742,7 @@ class Ui_MainWindow(object):
 " height: 15px;\n"
 "}")
         self.auto_co2.setAlignment(QtCore.Qt.AlignCenter)
-        self.auto_co2.setMaximum(1000)
+        self.auto_co2.setMaximum(2000)
         self.auto_co2.setObjectName("auto_co2")
         self.auto_co2_range = QtWidgets.QSpinBox(self.page_5)
         self.auto_co2_range.setGeometry(QtCore.QRect(290, 120, 71, 31))
@@ -3770,7 +3773,7 @@ class Ui_MainWindow(object):
 " height: 15px;\n"
 "}")
         self.auto_co2_range.setAlignment(QtCore.Qt.AlignCenter)
-        self.auto_co2_range.setMaximum(1000)
+        self.auto_co2_range.setMaximum(2000)
         self.auto_co2_range.setObjectName("auto_co2_range")
         self.label_71 = QtWidgets.QLabel(self.page_5)
         self.label_71.setGeometry(QtCore.QRect(260, 20, 31, 31))
@@ -3813,7 +3816,7 @@ class Ui_MainWindow(object):
 " height: 15px;\n"
 "}")
         self.auto_days.setAlignment(QtCore.Qt.AlignCenter)
-        self.auto_days.setMaximum(50)
+        self.auto_days.setMaximum(49)
         self.auto_days.setObjectName("auto_days")
         self.label_60.raise_()
         self.auto_temp_range.raise_()
@@ -4043,7 +4046,7 @@ class Ui_MainWindow(object):
         self.save_freq_m.setFrame(True)
         self.save_freq_m.setAlignment(QtCore.Qt.AlignCenter)
         self.save_freq_m.setMaximum(60)
-        self.save_freq_m.setProperty("value", 60)
+        self.save_freq_m.setProperty("value", 0)
         self.save_freq_m.setObjectName("save_freq_m")
         self.save_apply = QtWidgets.QPushButton(self.frame_24)
         self.save_apply.setGeometry(QtCore.QRect(70, 70, 81, 31))
@@ -4104,24 +4107,24 @@ class Ui_MainWindow(object):
         self.title = QtWidgets.QLabel(self.centralwidget)
         self.title.setGeometry(QtCore.QRect(40, 20, 721, 101))
         font = QtGui.QFont()
-        font.setFamily("나눔스퀘어 Light")
-        font.setPointSize(38)
-        font.setBold(False)
-        font.setWeight(50)
+        font.setFamily("나눔스퀘어 Bold")
+        font.setPointSize(36)
+        font.setBold(True)
+        font.setWeight(75)
         self.title.setFont(font)
         self.title.setStyleSheet("color:black\n"
 "")
         self.title.setAlignment(QtCore.Qt.AlignCenter)
         self.title.setObjectName("title")
-        self.fan = QtWidgets.QPushButton(self.centralwidget)
-        self.fan.setGeometry(QtCore.QRect(530, 490, 91, 91))
+        self.fan_back = QtWidgets.QPushButton(self.centralwidget)
+        self.fan_back.setGeometry(QtCore.QRect(530, 490, 91, 91))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
         font.setBold(False)
         font.setWeight(50)
-        self.fan.setFont(font)
-        self.fan.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
+        self.fan_back.setFont(font)
+        self.fan_back.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
 "background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
@@ -4130,17 +4133,18 @@ class Ui_MainWindow(object):
 "background-color:rgba(40,95,250,160);\n"
 "border-radius:45px;\n"
 "color:white;}")
-        self.fan.setCheckable(True)
-        self.fan.setObjectName("fan")
-        self.humidifier = QtWidgets.QPushButton(self.centralwidget)
-        self.humidifier.setGeometry(QtCore.QRect(420, 490, 91, 91))
+        self.fan_back.setText("")
+        self.fan_back.setCheckable(True)
+        self.fan_back.setObjectName("fan_back")
+        self.humidifier_back = QtWidgets.QPushButton(self.centralwidget)
+        self.humidifier_back.setGeometry(QtCore.QRect(420, 490, 91, 91))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
         font.setBold(False)
         font.setWeight(50)
-        self.humidifier.setFont(font)
-        self.humidifier.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
+        self.humidifier_back.setFont(font)
+        self.humidifier_back.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
 "background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
@@ -4149,17 +4153,18 @@ class Ui_MainWindow(object):
 "background-color:rgba(40,95,250,160);\n"
 "border-radius:45px;\n"
 "color:white;}")
-        self.humidifier.setCheckable(True)
-        self.humidifier.setObjectName("humidifier")
-        self.heater = QtWidgets.QPushButton(self.centralwidget)
-        self.heater.setGeometry(QtCore.QRect(310, 490, 91, 91))
+        self.humidifier_back.setText("")
+        self.humidifier_back.setCheckable(True)
+        self.humidifier_back.setObjectName("humidifier_back")
+        self.heater_back = QtWidgets.QPushButton(self.centralwidget)
+        self.heater_back.setGeometry(QtCore.QRect(310, 490, 91, 91))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
         font.setBold(False)
         font.setWeight(50)
-        self.heater.setFont(font)
-        self.heater.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
+        self.heater_back.setFont(font)
+        self.heater_back.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
 "background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
@@ -4168,8 +4173,9 @@ class Ui_MainWindow(object):
 "background-color:rgba(40,95,250,160);\n"
 "border-radius:45px;\n"
 "color:white;}")
-        self.heater.setCheckable(True)
-        self.heater.setObjectName("heater")
+        self.heater_back.setText("")
+        self.heater_back.setCheckable(True)
+        self.heater_back.setObjectName("heater_back")
         self.power = QtWidgets.QPushButton(self.centralwidget)
         self.power.setGeometry(QtCore.QRect(10, 10, 31, 31))
         font = QtGui.QFont()
@@ -4241,15 +4247,15 @@ class Ui_MainWindow(object):
         self.cur_time.raise_()
         self.sens_time.raise_()
         self.sens_time_2.raise_()
-        self.start = QtWidgets.QPushButton(self.centralwidget)
-        self.start.setGeometry(QtCore.QRect(200, 490, 91, 91))
+        self.start_back = QtWidgets.QPushButton(self.centralwidget)
+        self.start_back.setGeometry(QtCore.QRect(200, 490, 91, 91))
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어")
         font.setPointSize(12)
         font.setBold(False)
         font.setWeight(50)
-        self.start.setFont(font)
-        self.start.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
+        self.start_back.setFont(font)
+        self.start_back.setStyleSheet("QPushButton{border:1px solid rgb(80,100,145);\n"
 "background:qlineargradient(spread:pad, x1:0.4, y1:0.4, x2:1, y2:1, stop:0 rgba(255, 255, 255, 130), stop:1 rgba(255, 255, 255, 240));\n"
 "border-radius:45px;\n"
 "color:rgb(80,100,120);}\n"
@@ -4258,8 +4264,9 @@ class Ui_MainWindow(object):
 "background-color:rgba(40,95,250,160);\n"
 "border-radius:45px;\n"
 "color:white;}")
-        self.start.setCheckable(True)
-        self.start.setObjectName("start")
+        self.start_back.setText("")
+        self.start_back.setCheckable(True)
+        self.start_back.setObjectName("start_back")
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
         self.label_6.setGeometry(QtCore.QRect(343, 510, 24, 24))
         self.label_6.setStyleSheet("background-image:url(:/img/resources/heater.png)")
@@ -4290,52 +4297,130 @@ class Ui_MainWindow(object):
         self.label_11.setStyleSheet("background-image: url(:/img/resources/gears.png)")
         self.label_11.setText("")
         self.label_11.setObjectName("label_11")
+        self.heater = QtWidgets.QPushButton(self.centralwidget)
+        self.heater.setGeometry(QtCore.QRect(310, 490, 91, 91))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.heater.setFont(font)
+        self.heater.setStyleSheet("background:transparent;\n"
+"border:transparent;\n"
+"color:rgb(80,100,120);")
+        self.heater.setCheckable(True)
+        self.heater.setObjectName("heater")
+        self.humidifier = QtWidgets.QPushButton(self.centralwidget)
+        self.humidifier.setGeometry(QtCore.QRect(420, 490, 91, 91))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.humidifier.setFont(font)
+        self.humidifier.setStyleSheet("background:transparent;\n"
+"border:transparent;\n"
+"color:rgb(80,100,120);")
+        self.humidifier.setCheckable(True)
+        self.humidifier.setObjectName("humidifier")
+        self.start = QtWidgets.QPushButton(self.centralwidget)
+        self.start.setGeometry(QtCore.QRect(200, 490, 91, 91))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.start.setFont(font)
+        self.start.setStyleSheet("background:transparent;\n"
+"border:transparent;\n"
+"color:rgb(80,100,120);")
+        self.start.setCheckable(True)
+        self.start.setObjectName("start")
+        self.fan = QtWidgets.QPushButton(self.centralwidget)
+        self.fan.setGeometry(QtCore.QRect(530, 490, 91, 91))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.fan.setFont(font)
+        self.fan.setStyleSheet("background:transparent;\n"
+"border:transparent;\n"
+"color:rgb(80,100,120);")
+        self.fan.setCheckable(True)
+        self.fan.setObjectName("fan")
+        self.dryer = QtWidgets.QPushButton(self.centralwidget)
+        self.dryer.setGeometry(QtCore.QRect(640, 490, 91, 91))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.dryer.setFont(font)
+        self.dryer.setStyleSheet("background:transparent;\n"
+"border:transparent;\n"
+"color:rgb(80,100,120);")
+        self.dryer.setCheckable(True)
+        self.dryer.setObjectName("dryer")
+        self.led = QtWidgets.QPushButton(self.centralwidget)
+        self.led.setGeometry(QtCore.QRect(750, 490, 91, 91))
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.led.setFont(font)
+        self.led.setStyleSheet("background:transparent;\n"
+"border:transparent;\n"
+"color:rgb(80,100,120);")
+        self.led.setCheckable(True)
+        self.led.setObjectName("led")
         self.label_5.raise_()
         self.title.raise_()
         self.power.raise_()
         self.frame_2.raise_()
         self.stackedWidget.raise_()
         self.label_6.raise_()
-        self.heater.raise_()
+        self.heater_back.raise_()
         self.label_7.raise_()
-        self.fan.raise_()
         self.label_8.raise_()
-        self.humidifier.raise_()
+        self.humidifier_back.raise_()
         self.label_9.raise_()
-        self.led.raise_()
+        self.led_back.raise_()
         self.label_10.raise_()
-        self.dryer.raise_()
+        self.dryer_back.raise_()
         self.label_11.raise_()
+        self.start_back.raise_()
+        self.heater.raise_()
+        self.humidifier.raise_()
         self.start.raise_()
+        self.fan_back.raise_()
+        self.fan.raise_()
+        self.dryer.raise_()
+        self.led.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.led.setText(_translate("MainWindow", "\n"
-"\n"
-"조명"))
-        self.dryer.setText(_translate("MainWindow", "\n"
-"\n"
-"건조기"))
         self.label_20.setText(_translate("MainWindow", " °C"))
-        self.cur_temp_1.setText(_translate("MainWindow", "99.9"))
-        self.settings_temp.setText(_translate("MainWindow", "99.9"))
+        self.cur_temp_1.setText(_translate("MainWindow", "00.0"))
+        self.settings_temp.setText(_translate("MainWindow", "0.0"))
         self.label.setText(_translate("MainWindow", "온도"))
-        self.cur_co2_1.setText(_translate("MainWindow", "9999"))
+        self.cur_co2_1.setText(_translate("MainWindow", "0000"))
         self.label_18.setText(_translate("MainWindow", "ppm"))
-        self.settings_co2.setText(_translate("MainWindow", "1000"))
+        self.settings_co2.setText(_translate("MainWindow", "0000"))
         self.label_4.setText(_translate("MainWindow", "Co2"))
         self.main_l.setText(_translate("MainWindow", "<       "))
         self.main_r.setText(_translate("MainWindow", "       >"))
-        self.cur_humid_1.setText(_translate("MainWindow", "55"))
+        self.cur_humid_1.setText(_translate("MainWindow", "000"))
         self.label_19.setText(_translate("MainWindow", "%"))
-        self.settings_humid.setText(_translate("MainWindow", "100"))
+        self.settings_humid.setText(_translate("MainWindow", "0"))
         self.label_3.setText(_translate("MainWindow", "습도"))
         self.progressBar.setFormat(_translate("MainWindow", "%p%"))
         self.unfix_check.setText(_translate("MainWindow", "변동"))
@@ -4359,7 +4444,7 @@ class Ui_MainWindow(object):
         self.label_29.setText(_translate("MainWindow", "Co2"))
         self.label_23.setText(_translate("MainWindow", "연결 포트"))
         self.connect.setText(_translate("MainWindow", "연결"))
-        self.connect_3.setText(_translate("MainWindow", "해제"))
+        self.disconnect.setText(_translate("MainWindow", "해제"))
         self.label_21.setText(_translate("MainWindow", "기타"))
         self.label_2.setText(_translate("MainWindow", "재배 동작 모드                    "))
         self.label_35.setText(_translate("MainWindow", "가습기 동작"))
@@ -4405,22 +4490,28 @@ class Ui_MainWindow(object):
         self.save_apply.setText(_translate("MainWindow", "적용"))
         self.label_22.setText(_translate("MainWindow", "저장 주기"))
         self.title.setText(_translate("MainWindow", "MushFarm Monitoring System"))
-        self.fan.setText(_translate("MainWindow", "\n"
-"\n"
-"송풍기"))
-        self.humidifier.setText(_translate("MainWindow", "\n"
-"\n"
-"가습기"))
+        self.power.setText(_translate("MainWindow", "X"))
+        self.cur_time.setText(_translate("MainWindow", "00 : 00 : 00"))
+        self.sens_time.setText(_translate("MainWindow", "00 : 00 : 00"))
+        self.sens_time_2.setText(_translate("MainWindow", "최종 측정 시간  |"))
         self.heater.setText(_translate("MainWindow", "\n"
 "\n"
 "히터"))
-        self.power.setText(_translate("MainWindow", "X"))
-        self.cur_time.setText(_translate("MainWindow", "12 : 59 : 59"))
-        self.sens_time.setText(_translate("MainWindow", "12 : 59 : 59"))
-        self.sens_time_2.setText(_translate("MainWindow", "최종 측정 시간  |"))
+        self.humidifier.setText(_translate("MainWindow", "\n"
+"\n"
+"가습기"))
         self.start.setText(_translate("MainWindow", "\n"
 "\n"
 "시작"))
+        self.fan.setText(_translate("MainWindow", "\n"
+"\n"
+"송풍기"))
+        self.dryer.setText(_translate("MainWindow", "\n"
+"\n"
+"건조기"))
+        self.led.setText(_translate("MainWindow", "\n"
+"\n"
+"조명"))
 
 from pyqtgraph import PlotWidget
 import resources_rc

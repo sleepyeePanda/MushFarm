@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="img">
+    <file>t.png</file>
+    <file>A.png</file>
+    <file>t.png</file>
     <file>resources/web-page-home.png</file>
     <file>resources/settings.png</file>
     <file>resources/circular-light-bulb.png</file>

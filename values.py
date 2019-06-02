@@ -2,6 +2,7 @@ status = {'heater': False,
           'humidifier': False,
           'fan': False,
           'led': False}
+# 'dryer' : False}
 
 auto_settings = None
 manu_settings = None
