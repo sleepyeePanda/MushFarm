@@ -33,6 +33,7 @@ class UartCom:
         self.auto_timer = None
         self.uart = None
         self.isLinux = False
+        self.writer = None
         self.t = None
         self.connect_serial()
 
@@ -81,17 +82,16 @@ class UartCom:
                 pass
         return result
 
-    def run(self, loop):
+    def run(self, loop, coro):
         try:
             loop.run_forever()
-        except KeyboardInterrupt:
-            pass
         except serial.serialutil.SerialException as se:
             print(str(se))
             print('serial exception occured')
         except Exception as e:
             print(str(e))
         finally:
+            loop.stop()
             loop.close()
         print('Closed Uart Thread!')
 
@@ -99,25 +99,20 @@ class UartCom:
         com_no = str(ui.coms.currentText())
         print(com_no)
         if com_no:
-            self.loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(self.loop)
+            self.loop = asyncio.get_event_loop()
             if self.isLinux:
-                self.coro = serial_asyncio.create_serial_connection(self.loop,
-                                                                    lambda: UartProtocol(self), com_no, baudrate=115200)
+                self.writer = serial_asyncio.create_serial_connection(self.loop, lambda: UartProtocol(self), com_no,
+                                                                      baudrate=115200)
                 print(str(com_no)+' connected')
             else:
-                self.coro = serial_asyncio.create_serial_connection(self.loop,
-                                                                    lambda: UartProtocol(self), com_no, baudrate=115200)
+                self.writer = serial_asyncio.create_serial_connection(self.loop, lambda: UartProtocol(self), com_no,
+                                                                      baudrate=115200)
                 print(str(com_no)+' connected')
-            self.loop.run_until_complete(self.coro)
 
-            self.t = Thread(target=self.run, args=(self.loop,))
+            self.t = Thread(target=self.run, args=(self.loop, self.writer))
             self.t.setDaemon(True)
-            try:
-                self.t.start()
-            except serial.serialutil.SerialException as se:
-                ##
-                print(se)
+            self.t.start()
+
             ui.connect.setText('완료')
             ui.connect.setChecked(True)
             ui.connect.setEnabled(False)
@@ -597,6 +592,5 @@ if __name__ == '__main__':
     app.exec_()
     if uartCom.t and uartCom.t.isAlive():
         uartCom.uart.loop.call_soon_threadsafe(uartCom.uart.loop.stop)
-    #uartCom.t.join()
     save_settings()
     sys.exit()
