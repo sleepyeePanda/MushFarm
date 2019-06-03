@@ -11,6 +11,8 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 import pyqtgraph as pg
 import serial_asyncio
 
+# from Local import *
+import Remote
 from monitor_ui import Ui_MainWindow
 import values
 
@@ -34,7 +36,10 @@ class UartCom:
         self.uart = None
         self.isLinux = False
         self.writer = None
-        self.t = None
+        self.remote = None
+        self.local = None
+        self.remote_thread = None
+        self.local_thread = None
         self.connect_serial()
 
     def get_com(self, waiting=0):
@@ -92,26 +97,39 @@ class UartCom:
             print(str(e))
         finally:
             loop.stop()
-            loop.close()
+            # loop.close()
         print('Closed Uart Thread!')
 
     def connect_serial(self):
-        com_no = str(ui.coms.currentText())
+        # com_no = str(ui.coms.currentText())
+        com_no = True
         print(com_no)
         if com_no:
             self.loop = asyncio.get_event_loop()
             if self.isLinux:
-                self.writer = serial_asyncio.create_serial_connection(self.loop, lambda: UartProtocol(self), com_no,
+                self.remote = serial_asyncio.create_serial_connection(self.loop, lambda: UartProtocol(self), 'local',
                                                                       baudrate=115200)
+                self.local = serial_asyncio.create_serial_connection(self.loop, lambda: Remote.UartProtocol(), 'remote',
+                                                                     baudrate=115200)
+
                 print(str(com_no)+' connected')
             else:
-                self.writer = serial_asyncio.create_serial_connection(self.loop, lambda: UartProtocol(self), com_no,
+                self.remote = serial_asyncio.create_serial_connection(self.loop, lambda: UartProtocol(self), 'local',
                                                                       baudrate=115200)
+                self.local = serial_asyncio.create_serial_connection(self.loop, lambda: Remote.UartProtocol(), 'remote',
+                                                                     baudrate=115200)
                 print(str(com_no)+' connected')
 
-            self.t = Thread(target=self.run, args=(self.loop, self.writer))
-            self.t.setDaemon(True)
-            self.t.start()
+            asyncio.ensure_future(self.remote)
+            asyncio.ensure_future(self.local)
+
+            self.remote_thread = Thread(target=self.run, args=(self.loop, self.remote))
+            self.remote_thread.setDaemon(True)
+            self.remote_thread.start()
+
+            self.local_thread = Thread(target=self.run, args=(self.loop, self.local))
+            self.local_thread.setDaemon(True)
+            self.local_thread.start()
 
             ui.connect.setText('완료')
             ui.connect.setChecked(True)
@@ -161,14 +179,14 @@ class UartCom:
             return False
 
     def send_state(self):
-        self.send_msg(r'\x02S1TEMP?\x03\x0A\x0D')
+        self.send_msg('\x02S1TEMP?\x03\x0A\x0D')
 
     def control_heater_power(self, init=False):
-        msgs = {True: r'\x02MF1FX\x03\x0A\x0D', False: r'\x02MF1FO\x03\x0A\x0D'}
-        self.send_msg(r'\x02MF1ST\x03\x0A\x0D' if init else msgs[values.status['heater']])
+        msgs = {True: '\x02MF1FX\x03\x0A\x0D', False: '\x02MF1FO\x03\x0A\x0D'}
+        self.send_msg('\x02MF1ST\x03\x0A\x0D' if init else msgs[values.status['heater']])
 
     def control_humid_power(self, init=False, order=None):
-        msgs = {True: r'\x02MH1FX\x03\x0A\x0D', False: r'\x02MH1FO\x03\x0A\x0D'}
+        msgs = {True: '\x02MH1FX\x03\x0A\x0D', False: '\x02MH1FO\x03\x0A\x0D'}
         if order is not None:
             msg = msgs[order]
             self.humid_act_timer = QtCore.QTimer()
@@ -180,19 +198,19 @@ class UartCom:
                                        + values.manu_settings['humidifier']['act'][1]*60000)
         else:
             msg = msgs[values.status['humidifier']]
-        self.send_msg(r'\x02MH1ST\x03\x0A\x0D' if init else msg)
+        self.send_msg('\x02MH1ST\x03\x0A\x0D' if init else msg)
 
     def control_fan_power(self, init=False):
-        msgs = {True: r'\x02MF1FX\x03\x0A\x0D', False: r'\x02MF1FO\x03\x0A\x0D'}
-        self.send_msg(r'\x02MF1ST\x03\x0A\x0D' if init else msgs[values.status['fan']])
+        msgs = {True: '\x02MF1FX\x03\x0A\x0D', False: '\x02MF1FO\x03\x0A\x0D'}
+        self.send_msg('\x02MF1ST\x03\x0A\x0D' if init else msgs[values.status['fan']])
 
     def control_led_power(self, init=False):
-        msgs = {True: r'\x02ML1FX\x03\x0A\x0D', False: r'\x02ML1FO\x03\x0A\x0D'}
-        self.send_msg(r'\x02ML1ST\x03\x0A\x0D' if init else msgs[values.status['led']])
+        msgs = {True: '\x02ML1FX\x03\x0A\x0D', False: '\x02ML1FO\x03\x0A\x0D'}
+        self.send_msg('\x02ML1ST\x03\x0A\x0D' if init else msgs[values.status['led']])
 
     def auto_start(self):
-        msg = r'\x02ART'+str(values.auto_settings['temp'][0])+'H'+str(values.auto_settings['humid'][0])+ \
-              'C'+str(values.auto_settings['co2'][0])+r'I000\x03\x0A\x0D'
+        msg = '\x02ART'+str(values.auto_settings['temp'][0])+'H'+str(values.auto_settings['humid'][0])+ \
+              'C'+str(values.auto_settings['co2'][0])+'I000\x03\x0A\x0D'
         if self.send_msg(msg):
             ui.start_back.setChecked(True)
             self.auto_timer = QtCore.QTimer()
@@ -204,11 +222,11 @@ class UartCom:
             ui.start_back.setChecked(False)
 
     def auto_stop(self):
-        self.send_msg(r'\x02ARSTOP\x03\x0A\x0D')
+        self.send_msg('\x02ARSTOP\x03\x0A\x0D')
 
     def manual_start(self):
-        msg = r'\x02ART'+str(values.manu_settings['temp'][0])+'H'+str(values.manu_settings['humid'][0])+ \
-              'C'+str(values.manu_settings['co2'][0])+r'I000\x03\x0A\x0D'
+        msg = '\x02ART'+str(values.manu_settings['temp'][0])+'H'+str(values.manu_settings['humid'][0])+ \
+              'C'+str(values.manu_settings['co2'][0])+'I000\x03\x0A\x0D'
         if self.send_msg(msg):
             ui.start_back.setChecked(True)
             self.manual_timer = QtCore.QTimer()
@@ -236,7 +254,7 @@ class UartCom:
         ui.progressBar.setValue(((self.grow_time - self.manual_timer.remainingTime()) / self.grow_time)*100)
 
     def manual_stop(self):
-        self.send_msg(r'\x02MRSTOP\x03\x0A\x0D')
+        self.send_msg('\x02MRSTOP\x03\x0A\x0D')
 
 
 class UartProtocol(asyncio.Protocol):
@@ -276,7 +294,7 @@ class RcvParser(QtCore.QObject):
         ui.co2_check.clicked.connect(manager.update_graph)
 
     def parsing(self, pkt):
-        self.info = pkt.strip(r'\x02\x03\n\r')
+        self.info = pkt.strip('\x02\x03\n\r')
         print('data parsed', self.info)
         cmd = self.info[0]
         try:
@@ -590,7 +608,9 @@ if __name__ == '__main__':
     # MainWindow.showFullScreen()
     mainWindow.show()
     app.exec_()
-    if uartCom.t and uartCom.t.isAlive():
+    # if uartCom.t and uartCom.t.isAlive():
+    #     uartCom.uart.loop.call_soon_threadsafe(uartCom.uart.loop.stop)
+    if uartCom.remote_thread and uartCom.remote_thread.isAlive():
         uartCom.uart.loop.call_soon_threadsafe(uartCom.uart.loop.stop)
     save_settings()
     sys.exit()
